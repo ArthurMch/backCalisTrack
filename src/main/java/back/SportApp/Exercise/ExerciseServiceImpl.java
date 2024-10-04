@@ -1,11 +1,13 @@
 package back.SportApp.Exercise;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ExerciseServiceImpl {
+@Service
+public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
@@ -31,7 +33,7 @@ public class ExerciseServiceImpl {
     }
 
     @Override
-    public Exercise modifier(Long id, Exercise exercise) {
+    public void modifier(Long id, Exercise exercise) {
         Optional<Exercise> existingExercise = exerciseRepository.findById(id);
         if (existingExercise.isPresent()) {
             Exercise updateExercise = existingExercise.get();
@@ -39,14 +41,14 @@ public class ExerciseServiceImpl {
             updateExercise.setRep(exercise.getRep());
             updateExercise.setSet(exercise.getSet());
             updateExercise.setTraining(exercise.getTraining());
-            return exerciseRepository.save(updateExercise);
+            exerciseRepository.save(updateExercise);
         } else {
             throw new RuntimeException("Wrong or inexistant ID" + id);
         }
     }
 
     @Override
-    void supprimer(Long id) {
+    public void supprimer(Long id) {
         exerciseRepository.deleteById(id);
     }
 

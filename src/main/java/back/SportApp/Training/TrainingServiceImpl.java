@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainingServiceImpl implements Training<Training> {
+public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private TrainingRepository trainingRepository;
 
     @Override
-    public Object creer(Training training) {
+    public Training creer(Training training) {
         return trainingRepository.save(training);
     }
 
@@ -47,8 +47,7 @@ public class TrainingServiceImpl implements Training<Training> {
     }
 
     @Override
-    public String supprimer(Integer id) {
+    public void supprimer(Integer id) {
         trainingRepository.deleteById(id);
-        return "Entraînement supprimé avec succès.";
     }
 }

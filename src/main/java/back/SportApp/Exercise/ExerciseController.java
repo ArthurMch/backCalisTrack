@@ -26,12 +26,12 @@ public class ExerciseController {
     }
 
     @PutMapping("/update/{id}")
-    public Exercise update(@PathVariable Integer id, @RequestBody Exercise exercise) {
-        return exerciseService.modifier(id, exercise);
+    public void update(@PathVariable Long id, @RequestBody Exercise exercise) {
+        exerciseService.modifier(id, exercise);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
-        return exerciseService.supprimer(id);
+    public void delete(@PathVariable Long id) {
+        exerciseService.supprimer(id);
     }
 }
