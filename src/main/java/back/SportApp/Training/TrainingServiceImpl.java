@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainingService implements Training<Training> {
+public class TrainingServiceImpl implements Training<Training> {
 
     @Autowired
     private TrainingRepository trainingRepository;
@@ -22,7 +22,7 @@ public class TrainingService implements Training<Training> {
     }
 
     @Override
-    public Training lireById(Integer id) {
+    public Training lireById(Long id) {
         Optional<Training> training = trainingRepository.findById(id);
         if (training.isPresent()) {
             return training.get();

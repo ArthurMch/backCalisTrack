@@ -1,6 +1,8 @@
-package back.SportApp.DataBase;
+package back.SportApp.Training;
 
 
+import back.SportApp.Exercise.Exercise;
+import back.SportApp.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,36 +19,83 @@ public class Training {
     @Id
     @GeneratedValue
     @Column(name ="training_id")
-    @Getter
     private Long trainingId;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name="date")
-    @Getter
-    @Setter
+    @Column(name="training_date")
     private Date date;
 
-    @Column(name="number_of_exercise")
-    @Getter
-    @Setter
+    @Column(name="training_number_of_exercise")
     private Integer numberOfExercise;
 
-    @Column(name = "total_minutes_of_rest")
-    @Getter
-    @Setter
+    @Column(name = "training_total_minutes_of_rest")
     private Integer totalMinutesOfRest;
 
-    @Column(name = "total_minutes_of_training")
-    @Getter
-    @Setter
+    @Column(name = "training_total_minutes_of_training")
     private Integer totalMinutesOfTraining;
 
     @OneToMany(mappedBy = "training")
-    private Set<Exercise> exercise;
+    @Column(name="training_exercises")
+    private Set<Exercise> exercises;
 
     @ManyToOne
-    @JoinColumn(name="accountId", nullable = false)
-    @Getter
-    private Account account;
+    @JoinColumn(name="user_id", nullable = false)
+    @Column(name="training_user")
+    private User trainingUser;
 
+    public Long getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Long trainingId) {
+        this.trainingId = trainingId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getNumberOfExercise() {
+        return numberOfExercise;
+    }
+
+    public void setNumberOfExercise(Integer numberOfExercise) {
+        this.numberOfExercise = numberOfExercise;
+    }
+
+    public Integer getTotalMinutesOfRest() {
+        return totalMinutesOfRest;
+    }
+
+    public void setTotalMinutesOfRest(Integer totalMinutesOfRest) {
+        this.totalMinutesOfRest = totalMinutesOfRest;
+    }
+
+    public Integer getTotalMinutesOfTraining() {
+        return totalMinutesOfTraining;
+    }
+
+    public void setTotalMinutesOfTraining(Integer totalMinutesOfTraining) {
+        this.totalMinutesOfTraining = totalMinutesOfTraining;
+    }
+
+    public Set<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(Set<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public User getTrainingUser() {
+        return trainingUser;
+    }
+
+    public void setTrainingUser(User trainingUser) {
+        this.trainingUser = trainingUser;
+    }
 }

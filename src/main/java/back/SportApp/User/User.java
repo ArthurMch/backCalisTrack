@@ -1,4 +1,4 @@
-package back.SportApp.Account;
+package back.SportApp.User;
 
 import back.SportApp.Training.Training;
 import jakarta.persistence.*;
@@ -7,12 +7,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class AppUser {
+public class User {
 
     @Id
     @GeneratedValue
     @Column(name = "user_id")
-    private Long accountId;
+    private Long id;
 
     @Column(name = "user_name")
     private String name;
@@ -24,25 +24,26 @@ public class AppUser {
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @Column(name = "user_trainings")
     private Set<Training> training;
 
-    public AppUser(){
+    public User(){
     };
 
-    public AppUser(Long accountId, String name, String email, String password, Set<Training> training){
-        this.accountId = accountId;
+    public User(Long accountId, String name, String email, String password, Set<Training> training){
+        this.id = accountId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.training = training;
     }
 
-    public Long getAccountId(){
-        return accountId;
+    public Long getId(){
+        return id;
     }
 
-    public void setAccountId(Long accountId){
-        this.accountId = accountId;
+    public void setId(Long accountId){
+        this.id = accountId;
     }
 
     public String getName() {

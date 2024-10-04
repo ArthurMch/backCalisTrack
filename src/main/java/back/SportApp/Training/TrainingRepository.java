@@ -1,11 +1,10 @@
-package back.SportApp.Repository;
+package back.SportApp.Training;
 
-import back.SportApp.DataBase.Account;
-import back.SportApp.DataBase.Training;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainingRepository extends JpaRepository<Training, Integer> {
-    // TOUTES LES METHODES CRUD SONT AUTOMATIQUEMENT FOURNIS DU FAIT D'ETENDRE L'INTERFACE JPAREPOSITORY pas besoin de les ecrires moi meme//
+    Optional<Training> findById(Long id);
 }

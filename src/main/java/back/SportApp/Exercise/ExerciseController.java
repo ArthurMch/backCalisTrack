@@ -1,8 +1,5 @@
-package back.SportApp.Controller;
+package back.SportApp.Exercise;
 
-
-import back.SportApp.DataBase.Exercise;
-import back.SportApp.Service.ExerciseService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
