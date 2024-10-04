@@ -1,14 +1,12 @@
-package back.SportApp.Service;
+package back.SportApp.Training;
 
-import back.SportApp.DataBase.Training;
-import back.SportApp.Repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainingService implements tableService<Training>{
+public class TrainingService implements Training<Training> {
 
     @Autowired
     private TrainingRepository trainingRepository;

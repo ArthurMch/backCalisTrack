@@ -1,8 +1,6 @@
-package back.SportApp.Controller;
+package back.SportApp.Account;
 
 
-import back.SportApp.DataBase.Account;
-import back.SportApp.Service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -29,12 +27,12 @@ public class AccountController {
     }
 
     @PutMapping("/update/{id}")
-    public Account update(@PathVariable Integer id, @RequestBody Account account) {
-        return accountService.modifier(id, account);
+    public Account update(@RequestBody Account account, @PathVariable String id) {
+        return accountService.modifier(account);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Long id) {
         return accountService.supprimer(id);
     }
 }
