@@ -2,8 +2,6 @@ package back.SportApp.Exercise;
 
 import back.SportApp.Training.Training;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "exercise")
@@ -28,7 +26,6 @@ public class Exercise {
 
     @ManyToOne
     @JoinColumn(name="trainingId", nullable = false)
-    @Column(name = "exercise_training")
     private Training training;
 
     public Long getExerciseId() {

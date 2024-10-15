@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
 
     @Id
@@ -23,19 +23,18 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    @Column(name = "user_trainings")
-    private Set<Training> training;
+    @OneToMany(mappedBy = "trainingUser", cascade = CascadeType.ALL)
+    private Set<Training> trainings;
 
     public User(){
     };
 
-    public User(Long accountId, String name, String email, String password, Set<Training> training){
+    public User(Long accountId, String name, String email, String password, Set<Training> trainings){
         this.id = accountId;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.training = training;
+        this.trainings = trainings;
     }
 
     public Long getId(){
@@ -70,8 +69,8 @@ public class User {
         this.password = password;
     }
 
-    public Set<Training> getTraining(){
-        return this.training;
+    public Set<Training> getTrainings(){
+        return this.trainings;
     }
 }
 

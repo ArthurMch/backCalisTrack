@@ -23,7 +23,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public Training lireById(Long id) {
-        Optional<Training> training = trainingRepository.findById(id);
+        Optional<Training> training = trainingRepository.findByTrainingId(id);
         if (training.isPresent()) {
             return training.get();
         }else{

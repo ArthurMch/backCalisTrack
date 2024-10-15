@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
+
     @Autowired
     private ExerciseRepository exerciseRepository;
 
@@ -23,7 +24,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise lireById(Long id) {
-        Optional<Exercise> exercise = exerciseRepository.findById(id);
+        Optional<Exercise> exercise = exerciseRepository.findByExerciseId(id);
         if (exercise.isPresent()) {
 
             return exercise.get();
@@ -34,7 +35,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void modifier(Long id, Exercise exercise) {
-        Optional<Exercise> existingExercise = exerciseRepository.findById(id);
+        Optional<Exercise> existingExercise = exerciseRepository.findByExerciseId(id);
         if (existingExercise.isPresent()) {
             Exercise updateExercise = existingExercise.get();
             updateExercise.setName(exercise.getName());
@@ -49,7 +50,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void supprimer(Long id) {
-        exerciseRepository.deleteById(id);
+        exerciseRepository.deleteByExerciseId(id);
     }
 
 }

@@ -4,10 +4,7 @@ package back.SportApp.Training;
 import back.SportApp.Exercise.Exercise;
 import back.SportApp.User.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CookieValue;
 
 import java.util.Date;
 import java.util.Set;
@@ -40,7 +37,6 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
-    @Column(name="training_user")
     private User trainingUser;
 
     public Long getTrainingId() {
