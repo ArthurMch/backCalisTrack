@@ -1,27 +1,44 @@
 package back.SportApp.Training;
 
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/training")
 public class TrainingController {
 
-    private TrainingService trainingSevice;
+    private final TrainingService trainingService;
 
-    @PostMapping("create")
-    public Training createTraining(@RequestBody Training training) {
-        return trainingSevice.creer(training);
+    public TrainingController(TrainingService trainingService) {
+        this.trainingService = trainingService;
     }
 
-    // React native
-    // Trouver une lib pour avoir des composanbt.
-    // pwa progressif web app //
+    @PostMapping("/")
+    public Training create(@RequestBody Training training) {
+        return trainingService.create(training);
+    }
 
+    @GetMapping("/{id}")
+    public Training findById(@PathVariable Long id) {
+        return trainingService.findById(id);
+    }
 
+    @GetMapping("/")
+    public List<Training> findAll() {
+        return trainingService.findAll();
+    }
+
+    @PutMapping("/")
+    public Training update(@RequestBody Training training) {
+        return trainingService.update(training);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        trainingService.deleteById(id);
+    }
 
 
 

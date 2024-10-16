@@ -13,17 +13,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User creer(User user) {
+    public User create(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public List<User> lire() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User lireById(Long id) {
+    public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User modifier(User user) {
+    public User update(User user) {
         Optional<User> existingAccount = userRepository.findById(user.getId());
         if (existingAccount.isPresent()) {
             return userRepository.save(user);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String supprimer(Long id) {
+    public String deleteById(Long id) {
         userRepository.deleteById(id);
         return "Compte supprimé avec succès.";
     }

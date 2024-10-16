@@ -13,18 +13,18 @@ public class ExerciseServiceImpl implements ExerciseService {
     private ExerciseRepository exerciseRepository;
 
     @Override
-    public Exercise creer(Exercise exercise) {
+    public Exercise create(Exercise exercise) {
         return exerciseRepository.save(exercise);
     }
 
     @Override
-    public List<Exercise> lire() {
+    public List<Exercise> findAll() {
         return exerciseRepository.findAll();
     }
 
     @Override
-    public Exercise lireById(Long id) {
-        Optional<Exercise> exercise = exerciseRepository.findByExerciseId(id);
+    public Exercise findById(Long id) {
+        Optional<Exercise> exercise = exerciseRepository.findById(id);
         if (exercise.isPresent()) {
 
             return exercise.get();
@@ -34,8 +34,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void modifier(Long id, Exercise exercise) {
-        Optional<Exercise> existingExercise = exerciseRepository.findByExerciseId(id);
+    public void update(Exercise exercise) {
+        final Long id = exercise.getId();
+        Optional<Exercise> existingExercise = exerciseRepository.findById(id);
         if (existingExercise.isPresent()) {
             Exercise updateExercise = existingExercise.get();
             updateExercise.setName(exercise.getName());
@@ -49,8 +50,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void supprimer(Long id) {
-        exerciseRepository.deleteByExerciseId(id);
+    public void deleteById(Long id) {
+        exerciseRepository.deleteById(id);
     }
 
 }

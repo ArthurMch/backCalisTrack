@@ -2,36 +2,40 @@ package back.SportApp.Exercise;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
 
-    private ExerciseService exerciseService;
+    private final ExerciseService exerciseService;
 
-    @PostMapping("create")
+    public ExerciseController(ExerciseService exerciseService) {
+        this.exerciseService = exerciseService;
+    }
+
+    @PostMapping("/")
     public Exercise create(@RequestBody Exercise exercise) {
-        return exerciseService.creer(exercise);
+        return exerciseService.create(exercise);
     }
 
-    @GetMapping("read")
-    public List<Exercise> read(@RequestParam(name = "ordreAlpha", required = false)String sortParam) {
-        List<Exercise> exercises = exerciseService.lire();
-        if (sortParam != null && sortParam.equals("ordreAlpha")) {
-            exercises.sort(Comparator.comparing(Exercise::getName));
-        }
-        return exercises;
+    @GetMapping("/")
+    public List<Exercise> findAll() {
+        return  exerciseService.findAll();
     }
 
-    @PutMapping("/update/{id}")
+    @GetMapping("/{id}")
+    public Exercise findById(@PathVariable Long id) {
+        return exerciseService.findById(id);
+    }
+
+    @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody Exercise exercise) {
-        exerciseService.modifier(id, exercise);
+        exerciseService.update(exercise);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        exerciseService.supprimer(id);
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        exerciseService.deleteById(id);
     }
 }

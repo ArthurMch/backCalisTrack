@@ -10,7 +10,7 @@ public class Exercise {
     @Id
     @GeneratedValue
     @Column(name = "exercise_id")
-    private Long exerciseId;
+    private Long id;
 
     @Column(name="exercise_name")
     private String name;
@@ -25,15 +25,18 @@ public class Exercise {
     private Integer restTimeInMinutes;
 
     @ManyToOne
-    @JoinColumn(name="trainingId", nullable = false)
+    @JoinColumn(name="training_id", nullable = false)
     private Training training;
 
-    public Long getExerciseId() {
-        return exerciseId;
+    public Exercise() {
     }
 
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long exerciseId) {
+        this.id = exerciseId;
     }
 
     public String getName() {

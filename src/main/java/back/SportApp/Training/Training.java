@@ -16,7 +16,7 @@ public class Training {
     @Id
     @GeneratedValue
     @Column(name ="training_id")
-    private Long trainingId;
+    private Long id;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name="training_date")
@@ -39,12 +39,16 @@ public class Training {
     @JoinColumn(name="user_id", nullable = false)
     private User trainingUser;
 
-    public Long getTrainingId() {
-        return trainingId;
+    public Training(){
     }
 
-    public void setTrainingId(Long trainingId) {
-        this.trainingId = trainingId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long trainingId) {
+        this.id = trainingId;
     }
 
     public Date getDate() {

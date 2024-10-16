@@ -12,18 +12,18 @@ public class TrainingServiceImpl implements TrainingService {
     private TrainingRepository trainingRepository;
 
     @Override
-    public Training creer(Training training) {
+    public Training create(Training training) {
         return trainingRepository.save(training);
     }
 
     @Override
-    public List<Training> lire() {
+    public List<Training> findAll() {
         return trainingRepository.findAll();
     }
 
     @Override
-    public Training lireById(Long id) {
-        Optional<Training> training = trainingRepository.findByTrainingId(id);
+    public Training findById(Long id) {
+        Optional<Training> training = trainingRepository.findById(id);
         if (training.isPresent()) {
             return training.get();
         }else{
@@ -32,8 +32,8 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Training modifier(Integer id, Training training) {
-        Optional<Training> existingTraining = trainingRepository.findById(id);
+    public Training update(Training training) {
+        Optional<Training> existingTraining = trainingRepository.findById(training.getId());
         if (existingTraining.isPresent()) {
             Training updateTraining = existingTraining.get();
             updateTraining.setDate(training.getDate());
@@ -42,12 +42,12 @@ public class TrainingServiceImpl implements TrainingService {
             updateTraining.setNumberOfExercise(training.getNumberOfExercise());
             return trainingRepository.save(updateTraining);
         } else {
-            throw new RuntimeException("Wrong or inexistant ID" + id);
+            throw new RuntimeException("Wrong or inexistant ID" + training.getId());
         }
     }
 
     @Override
-    public void supprimer(Integer id) {
+    public void deleteById(Long id) {
         trainingRepository.deleteById(id);
     }
 }

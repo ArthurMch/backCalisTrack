@@ -14,8 +14,11 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_name")
-    private String name;
+    @Column(name = "user_firstname")
+    private String firstname;
+
+    @Column(name = "user_lastname")
+    private String lastname;
 
     @Column(name = "user_email")
     private String email;
@@ -29,14 +32,6 @@ public class User {
     public User(){
     };
 
-    public User(Long accountId, String name, String email, String password, Set<Training> trainings){
-        this.id = accountId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.trainings = trainings;
-    }
-
     public Long getId(){
         return id;
     }
@@ -45,12 +40,20 @@ public class User {
         this.id = accountId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setFirstname(String name){
+        this.firstname = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail(){

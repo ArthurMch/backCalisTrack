@@ -3,36 +3,35 @@ package back.SportApp.User;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/user")
 public class UserController {
 
-    private UserService accountService;
+    private final UserService userService;
 
-    @PostMapping("create")
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/")
     public User create(@RequestBody User user) {
-        return accountService.creer(user);
+        return userService.create(user);
     }
 
-    @GetMapping("read")
-    public List<User> read(@RequestParam(name = "ordreAlpha", required = false) String sortParam) {
-        List<User> accounts = accountService.lire();
-        if (sortParam != null && sortParam.equals("ordreAlpha")) {
-            accounts.sort(Comparator.comparing(User::getName));
-        }
-        return accounts;
+    @GetMapping("/")
+    public List<User> findAll() {
+        return userService.findAll();
     }
 
-    @PutMapping("/update/{id}")
-    public User update(@RequestBody User user, @PathVariable String id) {
-        return accountService.modifier(user);
+    @PutMapping("/{id}")
+    public User update(@RequestBody User user) {
+        return userService.update(user);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        return accountService.supprimer(id);
+        return userService.deleteById(id);
     }
 }

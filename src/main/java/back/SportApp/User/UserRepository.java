@@ -8,6 +8,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findById(Long Id);
 
-
     void deleteById(Long id);
 }
