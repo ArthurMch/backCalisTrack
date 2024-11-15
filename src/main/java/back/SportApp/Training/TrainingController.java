@@ -9,11 +9,9 @@ import java.util.List;
 public class TrainingController {
 
     private final TrainingService trainingService;
-    private final ExerciseServiceImpl exerciseServiceImpl;
 
-    public TrainingController(TrainingService trainingService, ExerciseServiceImpl exerciseServiceImpl) {
+    public TrainingController(TrainingService trainingService) {
         this.trainingService = trainingService;
-        this.exerciseServiceImpl = exerciseServiceImpl;
     }
 
     @PostMapping("/")
