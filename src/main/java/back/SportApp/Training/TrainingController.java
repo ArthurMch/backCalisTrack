@@ -1,6 +1,5 @@
 package back.SportApp.Training;
-
-
+import back.SportApp.Exercise.ExerciseServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +9,11 @@ import java.util.List;
 public class TrainingController {
 
     private final TrainingService trainingService;
+    private final ExerciseServiceImpl exerciseServiceImpl;
 
-    public TrainingController(TrainingService trainingService) {
+    public TrainingController(TrainingService trainingService, ExerciseServiceImpl exerciseServiceImpl) {
         this.trainingService = trainingService;
+        this.exerciseServiceImpl = exerciseServiceImpl;
     }
 
     @PostMapping("/")
@@ -40,7 +41,10 @@ public class TrainingController {
         trainingService.deleteById(id);
     }
 
+    }
 
 
 
-}
+
+
+
