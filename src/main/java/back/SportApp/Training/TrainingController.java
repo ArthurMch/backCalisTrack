@@ -1,5 +1,5 @@
 package back.SportApp.Training;
-import back.SportApp.Exercise.ExerciseServiceImpl;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

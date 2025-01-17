@@ -1,5 +1,7 @@
 package back.SportApp.Exercise;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +22,19 @@ public class ExerciseController {
     }
 
     @GetMapping("/")
-    public List<Exercise> findAll() {
-        return  exerciseService.findAll();
+    public ResponseEntity<List<Exercise>> findAll() {
+        try {
+            List<Exercise> exercises = exerciseService.findAll();
+            if (exercises.isEmpty()) {
+                return ResponseEntity.noContent().build(); // 204 No Content si aucune donnée
+            }
+            return ResponseEntity.ok(exercises); // 200 OK avec les données
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des exercices : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 Internal Server Error
+        }
     }
+
 
     @GetMapping("/{id}")
     public Exercise findById(@PathVariable Long id) {

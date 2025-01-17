@@ -20,6 +20,11 @@ public class UserController {
         return userService.create(user);
     }
 
+    @GetMapping
+    public User getById(@RequestParam("id") Long id) {
+        return userService.findById(id);
+    }
+
     @GetMapping("/")
     public List<User> findAll() {
         return userService.findAll();
