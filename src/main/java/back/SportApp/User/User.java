@@ -12,7 +12,7 @@ public class User {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "user_firstname")
     private String firstname;
@@ -32,11 +32,11 @@ public class User {
     public User(){
     };
 
-    public Long getId(){
+    public Integer getId(){
         return id;
     }
 
-    public void setId(Long accountId){
+    public void setId(Integer accountId){
         this.id = accountId;
     }
 

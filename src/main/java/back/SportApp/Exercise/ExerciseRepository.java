@@ -5,7 +5,4 @@ import java.util.Optional;
 
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
-    Optional<Exercise> findById(Long Id);
-
-    void deleteById(Long id);
 }

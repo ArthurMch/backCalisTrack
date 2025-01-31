@@ -1,16 +1,20 @@
 package back.SportApp.Exercise;
 
 import back.SportApp.Training.Training;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "exercise")
 public class Exercise {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exercise_id")
-    private Long id;
+    private Integer id;
 
     @Column(name="exercise_name")
     private String name;
@@ -24,18 +28,17 @@ public class Exercise {
     @Column(name = "exercise_rest_time_in_minutes")
     private Integer restTimeInMinutes;
 
-    @ManyToOne
-    @JoinColumn(name="training_id", nullable = false)
-    private Training training;
+    @ManyToMany(mappedBy = "exercises")
+    private Set<Training> trainings = new HashSet<>();
 
     public Exercise() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long exerciseId) {
+    public void setId(Integer exerciseId) {
         this.id = exerciseId;
     }
 
@@ -71,11 +74,11 @@ public class Exercise {
         this.restTimeInMinutes = restTimeInMinutes;
     }
 
-    public Training getTraining() {
-        return training;
+    public Set<Training> getTrainings() {
+        return trainings;
     }
 
-    public void setTraining(Training training) {
-        this.training = training;
+    public void setTrainings(Set<Training> trainings) {
+        this.trainings = trainings;
     }
 }

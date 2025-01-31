@@ -1,5 +1,9 @@
 package back.SportApp.Exercise;
 
+import back.SportApp.Training.Training;
+import back.SportApp.Training.TrainingRepository;
+import back.SportApp.Training.TrainingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +14,7 @@ import java.util.List;
 @RequestMapping("/exercise")
 public class ExerciseController {
 
+    @Autowired
     private final ExerciseService exerciseService;
 
     public ExerciseController(ExerciseService exerciseService) {
@@ -17,8 +22,13 @@ public class ExerciseController {
     }
 
     @PostMapping("/")
-    public Exercise create(@RequestBody Exercise exercise) {
-        return exerciseService.create(exercise);
+    public ResponseEntity<String> create(@RequestBody Exercise exercise) {
+        try {
+            exerciseService.create(exercise);
+            return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Exercise not created", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/")
@@ -37,7 +47,7 @@ public class ExerciseController {
 
 
     @GetMapping("/{id}")
-    public Exercise findById(@PathVariable Long id) {
+    public Exercise findById(@PathVariable Integer id) {
         return exerciseService.findById(id);
     }
 
@@ -47,7 +57,13 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        exerciseService.deleteById(id);
+    public ResponseEntity<String> deleteExercise(@PathVariable Integer id) {
+        try {
+            exerciseService.deleteById(id);
+            return ResponseEntity.ok("Exercise deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        }
     }
+
 }

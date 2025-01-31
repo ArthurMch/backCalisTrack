@@ -3,10 +3,12 @@ package back.SportApp.Training;
 
 import back.SportApp.Exercise.Exercise;
 import back.SportApp.User.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,9 +16,9 @@ import java.util.Set;
 public class Training {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="training_id")
-    private Long id;
+    private Integer id;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name="training_date")
@@ -31,9 +33,13 @@ public class Training {
     @Column(name = "training_total_minutes_of_training")
     private Integer totalMinutesOfTraining;
 
-    @OneToMany(mappedBy = "training")
-    @Column(name="training_exercises")
-    private Set<Exercise> exercises;
+    @ManyToMany
+    @JoinTable(
+            name = "training_exercise",
+            joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_id")
+    )
+    private Set<Exercise> exercises = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
@@ -43,11 +49,11 @@ public class Training {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long trainingId) {
+    public void setId(Integer trainingId) {
         this.id = trainingId;
     }
 

@@ -1,17 +1,22 @@
 package back.SportApp.Training;
 
+import back.SportApp.Exercise.Exercise;
+import back.SportApp.Exercise.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private TrainingRepository trainingRepository;
-
+    @Autowired
+    private ExerciseRepository exerciseRepository;
     @Override
     public Training create(Training training) {
         return trainingRepository.save(training);
@@ -23,7 +28,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Training findById(Long id) {
+    public Training findById(Integer id) {
         Optional<Training> training = trainingRepository.findById(id);
         if (training.isPresent()) {
             return training.get();
@@ -48,7 +53,17 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         trainingRepository.deleteById(id);
+    }
+
+    public Training createTrainingWithExercises(Training training, List<Integer> exerciseIds) {
+        Set<Exercise> exercises = new HashSet<>();
+        for (Integer id : exerciseIds) {
+            Exercise exercise = exerciseRepository.findById(id).orElseThrow(() -> new RuntimeException("Exercise not found"));
+            exercises.add(exercise);
+        }
+        training.setExercises(exercises);
+        return trainingRepository.save(training);
     }
 }

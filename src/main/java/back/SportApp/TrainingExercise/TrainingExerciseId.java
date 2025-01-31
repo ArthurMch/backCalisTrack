@@ -8,25 +8,25 @@ import java.util.Objects;
 @Embeddable
 public class TrainingExerciseId implements Serializable {
 
-    private Long trainingId;
-    private Long exerciseId;
+    private Integer trainingId;
+    private Integer exerciseId;
 
     public TrainingExerciseId() {}
 
-    public TrainingExerciseId(Long trainingId, Long exerciseId) {
+    public TrainingExerciseId(Integer trainingId, Integer exerciseId) {
         this.trainingId = trainingId;
         this.exerciseId = exerciseId;
     }
-    public Long getTrainingId() {
+    public Integer getTrainingId() {
         return trainingId;
     }
-    public void setTrainingId(Long trainingId) {
+    public void setTrainingId(Integer trainingId) {
         this.trainingId = trainingId;
     }
-    public Long getExerciseId() {
+    public Integer getExerciseId() {
         return exerciseId;
     }
-    public void setExerciseId(Long exerciseId) {
+    public void setExerciseId(Integer exerciseId) {
         this.exerciseId = exerciseId;
     }
 

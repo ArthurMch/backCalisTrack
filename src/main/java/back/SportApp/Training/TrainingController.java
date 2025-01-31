@@ -20,7 +20,7 @@ public class TrainingController {
     }
 
     @GetMapping("/{id}")
-    public Training findById(@PathVariable Long id) {
+    public Training findById(@PathVariable Integer id) {
         return trainingService.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class TrainingController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Integer id) {
         trainingService.deleteById(id);
     }
 

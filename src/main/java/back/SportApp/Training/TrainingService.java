@@ -5,7 +5,7 @@ import java.util.List;
 public interface TrainingService {
     Training create(Training training);
     List<Training> findAll();
-    Training findById(Long id);
+    Training findById(Integer id);
     Training update(Training training);
-    public void deleteById(Long id);
+    public void deleteById(Integer id);
 }
