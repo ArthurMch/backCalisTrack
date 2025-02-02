@@ -1,9 +1,6 @@
 package back.SportApp.Exercise;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.Training;
-import back.SportApp.Training.TrainingRepository;
-import back.SportApp.Training.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,20 +45,34 @@ public class ExerciseController {
 
             return ResponseEntity.ok(exerciseDTOs); // 200 OK avec les données
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération des exercices : " + e.getMessage());
+            System.err.println("Erreur lors de la récupération des exercises : " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 Internal Server Error
         }
     }
 
 
     @GetMapping("/{id}")
-    public Exercise findById(@PathVariable Integer id) {
-        return exerciseService.findById(id);
+    public ResponseEntity<Exercise> findById(@PathVariable Integer id) {
+        try {
+            final Exercise exercise = exerciseService.findById(id);
+            if(exercise == null) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(exercise);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody Exercise exercise) {
-        exerciseService.update(exercise);
+    public ResponseEntity<String> update(@RequestBody Exercise exercise) {
+        try {
+            exerciseService.update(exercise);
+            return ResponseEntity.ok("Exercise updated");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exercise not updated");
+        }
     }
 
     @DeleteMapping("/{id}")
