@@ -29,6 +29,7 @@ public class Exercise {
     private Integer restTimeInMinutes;
 
     @ManyToMany(mappedBy = "exercises")
+    @JsonBackReference
     private Set<Training> trainings = new HashSet<>();
 
     public Exercise() {

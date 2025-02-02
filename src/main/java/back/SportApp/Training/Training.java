@@ -39,7 +39,9 @@ public class Training {
             joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
+    @JsonManagedReference
     private Set<Exercise> exercises = new HashSet<>();
+
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)

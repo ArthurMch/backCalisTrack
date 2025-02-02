@@ -1,5 +1,6 @@
 package back.SportApp.Exercise;
 
+import back.SportApp.Exercise.DTO.ExerciseDTO;
 import back.SportApp.Training.Training;
 import back.SportApp.Training.TrainingRepository;
 import back.SportApp.Training.TrainingService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/exercise")
@@ -32,13 +34,19 @@ public class ExerciseController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Exercise>> findAll() {
+    public ResponseEntity<List<ExerciseDTO>> findAll() {
+        System.out.println("IN THE CONTROLLER ");
         try {
             List<Exercise> exercises = exerciseService.findAll();
+            System.out.println("Nombre d'exercices trouvés: " + exercises.size());
             if (exercises.isEmpty()) {
                 return ResponseEntity.noContent().build(); // 204 No Content si aucune donnée
             }
-            return ResponseEntity.ok(exercises); // 200 OK avec les données
+            List<ExerciseDTO> exerciseDTOs = exercises.stream()
+                    .map(ExerciseDTO::new)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(exerciseDTOs); // 200 OK avec les données
         } catch (Exception e) {
             System.err.println("Erreur lors de la récupération des exercices : " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 Internal Server Error
