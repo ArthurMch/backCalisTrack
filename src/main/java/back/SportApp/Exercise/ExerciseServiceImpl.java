@@ -50,7 +50,6 @@ public class ExerciseServiceImpl implements ExerciseService {
             updateExercise.setName(exercise.getName());
             updateExercise.setRep(exercise.getRep());
             updateExercise.setSet(exercise.getSet());
-            updateExercise.setTrainings(exercise.getTrainings());
             exerciseRepository.save(updateExercise);
         } else {
             throw new RuntimeException("Wrong or inexistant ID" + id);

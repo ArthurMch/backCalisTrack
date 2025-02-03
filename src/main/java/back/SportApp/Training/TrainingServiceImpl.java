@@ -56,14 +56,4 @@ public class TrainingServiceImpl implements TrainingService {
     public void deleteById(Integer id) {
         trainingRepository.deleteById(id);
     }
-
-    public Training createTrainingWithExercises(Training training, List<Integer> exerciseIds) {
-        Set<Exercise> exercises = new HashSet<>();
-        for (Integer id : exerciseIds) {
-            Exercise exercise = exerciseRepository.findById(id).orElseThrow(() -> new RuntimeException("Exercise not found"));
-            exercises.add(exercise);
-        }
-        training.setExercises(exercises);
-        return trainingRepository.save(training);
-    }
 }

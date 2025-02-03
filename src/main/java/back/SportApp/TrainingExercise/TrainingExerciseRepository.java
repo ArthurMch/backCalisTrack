@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface TrainingExerciseRepository extends JpaRepository<TrainingExercise, Integer> {
     List<TrainingExercise> findByExerciseId(Integer id);
+    List<TrainingExercise> findByExerciseName(String name);
+    Optional<TrainingExercise> findByExerciseNameAndExerciseId(String name, int id);
+    List<TrainingExercise> findByTrainingId(int id);
 
     void deleteById(TrainingExerciseId id);
 }

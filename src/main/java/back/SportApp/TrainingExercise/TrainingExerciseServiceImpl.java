@@ -1,6 +1,7 @@
 package back.SportApp.TrainingExercise;
 
 
+import back.SportApp.Exercise.Exercise;
 import back.SportApp.Exercise.ExerciseRepository;
 import back.SportApp.Training.Training;
 import back.SportApp.Training.TrainingRepository;
@@ -26,8 +27,34 @@ public class TrainingExerciseServiceImpl {
     private ExerciseRepository exerciseRepository;
 
 
+    public void addExerciseToTraining(Integer trainingId, Integer exerciseId) {
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new RuntimeException("Training not found"));
+
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+        TrainingExercise trainingExercise = new TrainingExercise(training, exercise);
+        trainingExerciseRepository.save(trainingExercise);
+    }
+
+    public Set<Exercise> getExerciseFromTraining(Integer trainingId) {
+        List<TrainingExercise> trainingExercises = trainingExerciseRepository.findByTrainingId(trainingId);
+        Set<Exercise> exercises = new HashSet<>();
+        if(!trainingExercises.isEmpty()){
+            for (TrainingExercise trainingExercise : trainingExercises) {
+                exercises.add(trainingExercise.getExercise());
+
+            }
+            return exercises;
+        } else {
+            throw new RuntimeException("Training exercise not found");
+        }
+
+    }
+
     // Méthode pour récupérer les trainings d'un exercice
-    public Set<Training> getTrainingsForExercise(Integer exerciseId) {
+    public Set<Training> getTrainingsFromExercise(Integer exerciseId) {
         // On récupère les TrainingExercise associés à cet exercise
         List<TrainingExercise> trainingExercises = trainingExerciseRepository.findByExerciseId(exerciseId);
         Set<Training> trainings = new HashSet<>();

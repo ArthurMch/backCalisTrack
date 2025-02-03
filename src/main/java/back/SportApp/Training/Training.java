@@ -33,16 +33,6 @@ public class Training {
     @Column(name = "training_total_minutes_of_training")
     private Integer totalMinutesOfTraining;
 
-    @ManyToMany
-    @JoinTable(
-            name = "training_exercise",
-            joinColumns = @JoinColumn(name = "training_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_id")
-    )
-    @JsonManagedReference
-    private Set<Exercise> exercises = new HashSet<>();
-
-
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User trainingUser;
@@ -89,14 +79,6 @@ public class Training {
 
     public void setTotalMinutesOfTraining(Integer totalMinutesOfTraining) {
         this.totalMinutesOfTraining = totalMinutesOfTraining;
-    }
-
-    public Set<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public void setExercises(Set<Exercise> exercises) {
-        this.exercises = exercises;
     }
 
     public User getTrainingUser() {

@@ -13,13 +13,12 @@ public class TrainingDTO {
     private Integer numberOfExercise;
     private Set<ExerciseDTO> exercises;
 
+
+    // Dois je passer un trainingExercise dans la signature ?
     public TrainingDTO(Training training) {
         this.id = training.getId();
         this.date = training.getDate();
         this.numberOfExercise = training.getNumberOfExercise();
-        this.exercises = training.getExercises().stream()
-                .map(ExerciseDTO::new)  // Conversion des entités en DTOs
-                .collect(Collectors.toSet());
     }
 
     public Integer getId() {

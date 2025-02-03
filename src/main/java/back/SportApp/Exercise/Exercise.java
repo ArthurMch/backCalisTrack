@@ -28,10 +28,6 @@ public class Exercise {
     @Column(name = "exercise_rest_time_in_minutes")
     private Integer restTimeInMinutes;
 
-    @ManyToMany(mappedBy = "exercises")
-    @JsonBackReference
-    private Set<Training> trainings = new HashSet<>();
-
     public Exercise() {
     }
 
@@ -73,13 +69,5 @@ public class Exercise {
 
     public void setRestTimeInMinutes(Integer restTimeInMinutes) {
         this.restTimeInMinutes = restTimeInMinutes;
-    }
-
-    public Set<Training> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(Set<Training> trainings) {
-        this.trainings = trainings;
     }
 }

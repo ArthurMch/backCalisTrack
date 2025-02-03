@@ -5,5 +5,5 @@ import back.SportApp.Training.Training;
 import java.util.Set;
 
 public interface TrainingExerciseService {
-    public Set<Training> getTrainingsForExercise(Integer exerciseId);
+    public Set<Training> getTrainingsFromExercise(Integer exerciseId);
 }
