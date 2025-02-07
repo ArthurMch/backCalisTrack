@@ -7,5 +7,6 @@ public interface TrainingService {
     List<Training> findAll();
     Training findById(Integer id);
     Training update(Training training);
-    public void deleteById(Integer id);
+    void deleteById(Integer id);
+    Boolean existById(Integer id);
 }

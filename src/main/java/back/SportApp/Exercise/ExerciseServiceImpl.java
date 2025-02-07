@@ -1,11 +1,7 @@
 package back.SportApp.Exercise;
-
-import back.SportApp.Training.Training;
 import back.SportApp.Training.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +15,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise create(Exercise exercise) {
-        if (!exerciseRepository.existsById(exercise.getId())) {
-            return exerciseRepository.save(exercise);
-        } else {
-            throw new RuntimeException("Training not found");
-        }
+        return exerciseRepository.save(exercise);
     }
 
     @Override

@@ -14,10 +14,12 @@ public class TrainingExercise {
 
     @ManyToOne
     @MapsId("trainingId")
+    @JoinColumn(name = "training_id")
     private Training training;
 
     @ManyToOne
     @MapsId("exerciseId")
+    @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
     public TrainingExercise(){}

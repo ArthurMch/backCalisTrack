@@ -5,7 +5,7 @@ import java.util.List;
 public interface UserService {
     User create(User user);
     List<User> findAll();
-    User findById(Long id);
+    User findById(Integer id);
     User update(User user);
-    String deleteById(Long id);
+    String deleteById(Integer id);
 }

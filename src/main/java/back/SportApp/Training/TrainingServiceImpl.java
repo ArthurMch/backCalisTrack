@@ -37,6 +37,10 @@ public class TrainingServiceImpl implements TrainingService {
         }
     }
 
+    public Boolean existById(Integer id) {
+        return trainingRepository.existsById(id);
+    }
+
     @Override
     public Training update(Training training) {
         Optional<Training> existingTraining = trainingRepository.findById(training.getId());

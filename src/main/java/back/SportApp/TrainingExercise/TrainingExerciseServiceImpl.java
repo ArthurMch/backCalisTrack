@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class TrainingExerciseServiceImpl {
+public class TrainingExerciseServiceImpl implements TrainingExerciseService {
 
     @Autowired
     private TrainingExerciseRepository trainingExerciseRepository;
@@ -27,7 +27,7 @@ public class TrainingExerciseServiceImpl {
     private ExerciseRepository exerciseRepository;
 
 
-    public void addExerciseToTraining(Integer trainingId, Integer exerciseId) {
+    public void addExerciseTraining(Integer trainingId, Integer exerciseId) {
         Training training = trainingRepository.findById(trainingId)
                 .orElseThrow(() -> new RuntimeException("Training not found"));
 
@@ -36,6 +36,12 @@ public class TrainingExerciseServiceImpl {
 
         TrainingExercise trainingExercise = new TrainingExercise(training, exercise);
         trainingExerciseRepository.save(trainingExercise);
+    }
+
+    public void deleteExerciseTraining(Integer trainingId, Integer exerciseId) {
+        Training training = trainingRepository.findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found"));
+        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(() -> new RuntimeException("Exercise not found"));
+        trainingRepository.delete(training);
     }
 
     public Set<Exercise> getExerciseFromTraining(Integer trainingId) {
