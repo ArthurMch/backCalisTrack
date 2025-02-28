@@ -1,5 +1,4 @@
 package back.SportApp.Exercise;
-import back.SportApp.Training.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,11 +10,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
-    private TrainingRepository trainingRepository;
-
     @Override
     public Exercise create(Exercise exercise) {
         return exerciseRepository.save(exercise);
+    }
+
+    @Override
+    public boolean existsById(Integer id){
+        return exerciseRepository.existsById(id);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             updateExercise.setName(exercise.getName());
             updateExercise.setRep(exercise.getRep());
             updateExercise.setSet(exercise.getSet());
+            updateExercise.setRestTimeInMinutes(exercise.getRestTimeInMinutes());
             exerciseRepository.save(updateExercise);
         } else {
             throw new RuntimeException("Wrong or inexistant ID" + id);

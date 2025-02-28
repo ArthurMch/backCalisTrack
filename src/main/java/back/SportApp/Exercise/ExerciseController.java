@@ -41,6 +41,17 @@ public class ExerciseController {
         this.userService = userService;
     }
 
+    @PostMapping("/")
+    public ResponseEntity<String> create(@RequestBody Exercise exercise) {
+        try {
+            exerciseService.create(exercise);
+            return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            logger.error("Erreur lors de la creation d'exercise", e);
+            return new ResponseEntity<>("Exercise not created", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("createAndAffiliateToTraining/{trainingId}")
     public ResponseEntity<String> createAndAffiliateToTraining(@RequestBody Exercise exercise, @PathVariable Integer trainingId) {
         try {
@@ -61,14 +72,19 @@ public class ExerciseController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<String> create(@RequestBody Exercise exercise) {
-        try {
-            exerciseService.create(exercise);
-            return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("Erreur lors de la creation d'exercise", e);
-            return new ResponseEntity<>("Exercise not created", HttpStatus.BAD_REQUEST);
+    @PostMapping("AffiliateToTraining/{exerciseId}/{trainingId}")
+    public ResponseEntity<String> affiliateToTraining(@PathVariable Integer exerciseId, @PathVariable Integer trainingId){
+        try{
+            final Boolean doTrainingExist = trainingService.existById(trainingId);
+            final Boolean doExerciseExist = exerciseService.existsById(exerciseId);
+            if(doTrainingExist && doExerciseExist) {
+                trainingExerciseService.addExerciseTraining(trainingId, exerciseId);
+                return ResponseEntity.ok("Exercise affiliated");
+            } else {
+                return new ResponseEntity<>("Exercise not affiliated", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            return new ResponseEntity<>("Exercise not affiliated", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -116,7 +132,7 @@ public class ExerciseController {
         }
     }
 
-    @DeleteMapping("/{trainingId}/{exerciseId}")
+    @DeleteMapping("/{exerciseId}")
     public ResponseEntity<String> deleteExercise(@PathVariable Integer exerciseId) {
         try {
             exerciseService.deleteById(exerciseId);

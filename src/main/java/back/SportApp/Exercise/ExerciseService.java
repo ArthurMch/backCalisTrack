@@ -8,4 +8,5 @@ public interface ExerciseService {
     public Exercise findById(Integer id);
     public void deleteById(Integer id);
     public void update(Exercise exercise);
+    public boolean existsById(Integer id);
 }
