@@ -3,6 +3,7 @@ package back.SportApp.User;
 import back.SportApp.Training.Training;
 import jakarta.persistence.*;
 
+
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class User {
     @Column(name = "user_lastname")
     private String lastname;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     private String email;
 
     @Column(name = "user_password")
@@ -28,6 +29,9 @@ public class User {
 
     @OneToMany(mappedBy = "trainingUser", cascade = CascadeType.ALL)
     private Set<Training> trainings;
+
+    @Column(name = "user_role")
+    private String role;
 
     public User(){
     };
@@ -74,6 +78,14 @@ public class User {
 
     public Set<Training> getTrainings(){
         return this.trainings;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 
