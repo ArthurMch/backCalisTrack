@@ -30,8 +30,9 @@ public class User {
     @OneToMany(mappedBy = "trainingUser", cascade = CascadeType.ALL)
     private Set<Training> trainings;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
-    private String role;
+    private Role role;
 
     public User(){
     };
@@ -80,11 +81,11 @@ public class User {
         return this.trainings;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

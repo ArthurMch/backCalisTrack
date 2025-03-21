@@ -1,7 +1,10 @@
 package back.SportApp.Auth;
 
+import back.SportApp.Auth.DTO.UserDTO;
+import back.SportApp.User.Role;
 import back.SportApp.User.User;
 import back.SportApp.User.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,10 +32,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
+    public ResponseEntity<UserDTO> register(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "User registered successfully";
+        user.setRole(Role.USER);
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.ok(new UserDTO(savedUser.getEmail(), savedUser.getRole()));
     }
 
     @PostMapping("/login")
