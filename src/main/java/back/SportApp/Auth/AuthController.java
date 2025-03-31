@@ -33,6 +33,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@RequestBody User user) {
+        System.out.println("in the registrer method");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         User savedUser = userRepository.save(user);
