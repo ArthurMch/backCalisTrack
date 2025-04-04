@@ -1,6 +1,8 @@
 package back.SportApp.User;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,24 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
+
+    @Override
+    @Transactional
+    public User getUser(final String email) throws UsernameNotFoundException {
+        final User user = getUserWithoutException(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User Not Found with email: " + email);
+        } else {
+            return user;
+        }
+    }
+
+    @Override
+    @Transactional
+    public User getUserWithoutException(final String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
 
     @Override
     public User create(User user) {
