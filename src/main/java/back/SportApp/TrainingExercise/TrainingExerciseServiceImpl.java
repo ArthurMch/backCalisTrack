@@ -5,13 +5,13 @@ import back.SportApp.Exercise.Exercise;
 import back.SportApp.Exercise.ExerciseRepository;
 import back.SportApp.Training.Training;
 import back.SportApp.Training.TrainingRepository;
-import back.SportApp.User.UserRepository;
+import back.SportApp.User.repository.UserPasswordRepository;
+import back.SportApp.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service

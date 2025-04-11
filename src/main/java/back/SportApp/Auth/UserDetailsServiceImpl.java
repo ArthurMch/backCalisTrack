@@ -1,7 +1,8 @@
 package back.SportApp.Auth;
 
 import back.SportApp.User.User;
-import back.SportApp.User.UserRepository;
+import back.SportApp.User.repository.UserPasswordRepository;
+import back.SportApp.User.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
