@@ -109,7 +109,7 @@ public class ExerciseController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Exercise> findById(@PathVariable Integer id) {
+    public ResponseEntity<Exercise> getById(@PathVariable Integer id) {
         try {
             final Exercise exercise = exerciseService.findById(id);
             if(exercise == null) {

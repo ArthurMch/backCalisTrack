@@ -1,5 +1,5 @@
 package back.SportApp.Email;
 
 public interface EmailService {
-    void sendResetPasswordEmail(String to, String resetToken);
+    void sendLostPasswordEmail(String to, String link);
 }

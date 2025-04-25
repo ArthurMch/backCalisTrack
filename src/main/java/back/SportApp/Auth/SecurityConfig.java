@@ -35,7 +35,14 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable()) // Désactiver le formulaire de connexion
                 .httpBasic(basic -> basic.disable()) // Désactiver l'authentification HTTP Basic
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/validate-token").permitAll()
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/api/auth/register",
+                                "/api/auth/validate-token",
+                                "/api/auth/lost-password",
+                                "/api/auth/is-valid-lost-password",
+                                "/api/auth/reset-password"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -48,7 +55,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:8081", "https://eadd-2001-861-3640-60f0-9f50-1870-8029-df44.ngrok-free.app"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:8081",  "http://localhost:8080"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         source.registerCorsConfiguration("/**", config);

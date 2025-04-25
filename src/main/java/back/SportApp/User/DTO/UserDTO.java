@@ -1,18 +1,32 @@
 package back.SportApp.User.DTO;
 
 import back.SportApp.User.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
     private int id;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
+    private String phone;
+
     private Enum role;
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.firstName = user.getFirstname();
         this.lastName = user.getLastname();
+        this.phone = user.getPhone();
         this.email = user.getEmail();
         this.role = user.getRole();
     }
@@ -55,5 +69,13 @@ public class UserDTO {
 
     public void setRole(Enum role) {
         this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

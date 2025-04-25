@@ -19,6 +19,10 @@ public class UserDetailsImpl implements UserDetails {
         return Collections.emptyList();  // Tu peux gérer les rôles ici si besoin
     }
 
+    public Integer getId() {  // ou Integer, selon le type de votre ID
+        return user.getId();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();

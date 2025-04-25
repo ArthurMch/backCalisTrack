@@ -27,13 +27,12 @@ public class EmailServiceImpl implements EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendResetPasswordEmail(String to, String resetToken) {
+    public void sendLostPasswordEmail(String email, String resetLink) {
         String subject = "Réinitialisation de votre mot de passe";
-        String resetLink = "https://ton-front/reset-password?token=" + resetToken;
         String content = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe :\n" + resetLink;
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
+        message.setTo(email);
         message.setSubject(subject);
         message.setText(content);
         mailSender.send(message);

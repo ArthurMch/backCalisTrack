@@ -31,6 +31,11 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String email;
 
+    @NotBlank
+    @Size(max = 15)
+    @Column(name = "user_phone")
+    private String phone;
+
     @Size(max = 120)
     @Column(name = "user_password")
     private String password;
@@ -143,6 +148,14 @@ public class User {
 
     public void setLostPasswordExpiration(Date lostPasswordExpiration) {
         this.lostPasswordExpiration = lostPasswordExpiration;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
 

@@ -2,13 +2,15 @@ package back.SportApp.Auth.DTO;
 
 import back.SportApp.User.Role;
 
-public class UserDTO {
+public class UserDetailsDTO {
+
+    private int id;
 
     private String email;
 
     private Role role;
 
-    public UserDTO(String email, Role role) {
+    public UserDetailsDTO(String email, Role role) {
         this.email = email;
         this.role = role;
     }
@@ -27,6 +29,14 @@ public class UserDTO {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

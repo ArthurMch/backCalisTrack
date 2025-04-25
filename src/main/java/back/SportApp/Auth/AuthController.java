@@ -1,10 +1,8 @@
 package back.SportApp.Auth;
-
-import back.SportApp.Auth.DTO.UserDTO;
-import back.SportApp.Auth.DTO.request.IsValidTokenRequest;
-import back.SportApp.Auth.DTO.request.LostPasswordRequest;
-import back.SportApp.Auth.DTO.request.ResetPasswordRequest;
+import back.SportApp.Auth.DTO.UserDetailsDTO;
+import back.SportApp.Auth.DTO.request.*;
 import back.SportApp.Auth.DTO.response.IsValidLostPasswordResponse;
+import back.SportApp.Auth.DTO.response.JwtResponse;
 import back.SportApp.Auth.DTO.response.LostPasswordResponse;
 import back.SportApp.Auth.DTO.response.ResetPasswordResponse;
 import back.SportApp.Email.EmailService;
@@ -60,20 +58,21 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody User user) {
+    public ResponseEntity<UserDetailsDTO> register(@RequestBody User user) {
         System.out.println("in the registrer method");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(new UserDTO(savedUser.getEmail(), savedUser.getRole()));
+        return ResponseEntity.ok(new UserDetailsDTO(savedUser.getEmail(), savedUser.getRole()));
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody final LoginRequest loginRequest) {
         System.out.println("Attempt to log in");
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        return jwtUtil.generateToken(userDetails.getUsername());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), loginRequest.getEmail()));
     }
 
     @PostMapping("/validate-token")
@@ -91,16 +90,17 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("isAnonymous()")
+
+
     @PostMapping("/lost-password")
     public ResponseEntity<LostPasswordResponse> lostPassword(
-            @Valid @RequestBody final LostPasswordRequest lostPasswordRequest)
+            @Valid @RequestBody final EmailLocaleCodeRequest lostPasswordRequest)
             throws MessagingException, IOException, InterruptedException {
         final String token = userService.startLostPassword(lostPasswordRequest.getEmail());
         if (StringUtils.isNotEmpty(token)) {
-            final String link = Utility.getSiteBaseURL() + "/reset-password?token=" + token;
-            // TODO gerer le .env pour le lien ainsi que la methode sendResetPassword
-            emailService.sendResetPasswordEmail(lostPasswordRequest.getEmail(), link);
+            final String link = "http://localhost:8081" + "/reset-password?token=" + token;
+            emailService.sendLostPasswordEmail(lostPasswordRequest.getEmail(),
+                    link);
         } else {
             // Feinter le délai de traitement trop rapide si une adresse mail qui n'existe
             // pas
@@ -108,7 +108,7 @@ public class AuthController {
         }
         final LostPasswordResponse response = new LostPasswordResponse();
         response.setSuccess(true);
-        response.setExpirationMinute(15);
+        response.setExpirationMinute(20);
         return ResponseEntity.ok(response);
     }
 
