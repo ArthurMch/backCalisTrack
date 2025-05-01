@@ -176,4 +176,50 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         return "Compte supprimé avec succès.";
     }
+
+    @Override
+    public boolean existsByEmailExceptSelf(int id, String email) {
+        return userRepository.countByEmailExeptSelf(id, email) > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean editProfileInfo(final String loginEmail, final String phone, final String firstname, final String lastname) {
+        final User user = getUser(loginEmail);
+        if (user != null) {
+            user.setFirstname(firstname);
+            user.setLastname(lastname);
+            user.setPhone(phone);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean editEmail(final String loginEmail, final String newEmail) {
+        final User user = getUser(loginEmail);
+        if (user != null) {
+            user.setEmail(newEmail);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public ResetPasswordStatus editPassword(final String loginEmail, final String password) {
+        final User user = getUser(loginEmail);
+        if (user != null) {
+            final ResetPasswordStatus status = updatePassword(user, password);
+            userRepository.save(user);
+            return status;
+        } else {
+            return ResetPasswordStatus.INCORRECT;
+        }
+    }
 }

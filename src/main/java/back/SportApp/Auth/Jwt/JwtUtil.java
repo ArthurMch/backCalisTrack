@@ -1,7 +1,9 @@
-package back.SportApp.Auth;
+package back.SportApp.Auth.Jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.util.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -59,6 +61,21 @@ public class JwtUtil {
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
+    }
+
+    public String parseJwt(final HttpServletRequest request) {
+        final String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+
+        return null;
+    }
+
+    public void revokeJwt(final HttpServletRequest request) {
+        final String jwt = parseJwt(request);
+        RevokedJwtContainer.revokeToken(jwt);
     }
 }
 

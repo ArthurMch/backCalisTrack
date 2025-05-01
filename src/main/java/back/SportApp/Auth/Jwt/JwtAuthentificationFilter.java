@@ -1,4 +1,4 @@
-package back.SportApp.Auth;
+package back.SportApp.Auth.Jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
