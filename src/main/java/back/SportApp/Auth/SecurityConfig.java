@@ -55,7 +55,13 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:8081",  "http://localhost:8080"));
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8081",  // Metro web
+                "http://localhost:8080",  // Spring Boot web
+                "exp://192.168.1.110:8081", // Expo Go
+                "http://192.168.1.100:8080", // Spring Boot via IP
+                "http://192.168.1.110:8081"  // Metro via IP
+        ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         source.registerCorsConfiguration("/**", config);

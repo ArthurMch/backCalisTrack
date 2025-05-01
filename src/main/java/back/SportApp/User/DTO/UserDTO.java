@@ -1,6 +1,7 @@
 package back.SportApp.User.DTO;
 
 import back.SportApp.User.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -8,10 +9,12 @@ public class UserDTO {
     private int id;
 
     @NotBlank
-    private String firstName;
+    @JsonProperty("firstname")
+    private String firstname;
 
     @NotBlank
-    private String lastName;
+    @JsonProperty("lastname")
+    private String lastname;
 
     @NotBlank
     @Email
@@ -24,8 +27,8 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.firstName = user.getFirstname();
-        this.lastName = user.getLastname();
+        this.firstname = user.getFirstname();
+        this.lastname = user.getLastname();
         this.phone = user.getPhone();
         this.email = user.getEmail();
         this.role = user.getRole();
@@ -40,19 +43,19 @@ public class UserDTO {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstname = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
     }
 
     public String getEmail() {
