@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,13 +57,24 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDetailsDTO> register(@RequestBody User user) {
-        System.out.println("in the registrer method");
+    public ResponseEntity<?> register(@RequestBody User user) {
+        boolean exist = userService.existsByEmail(user.getEmail());
+        if (exist) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Un compte avec cet e-mail existe déjà.");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(new UserDetailsDTO(savedUser.getEmail(), savedUser.getRole()));
+
+        UserDetailsDTO userDetailsDTO = new UserDetailsDTO(savedUser.getEmail(), savedUser.getRole());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userDetailsDTO);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody final LoginRequest loginRequest) {

@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT count(u) FROM User u WHERE u.email=:email AND u.id !=:id")
     Integer countByEmailExeptSelf(@Param("id") int id, @Param("email") final String email);
+
+    boolean existsByEmail(String email);
 }

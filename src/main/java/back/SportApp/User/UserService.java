@@ -20,6 +20,7 @@ public interface UserService {
     public Optional<User> getUserByLostPasswordToken(final String token);
     public ResetPasswordStatus resetPassword(final String token, final String password);
     public boolean existsByEmailExceptSelf(int id, String email);
+    public boolean existsByEmail(String email);
     boolean editProfileInfo(String loginEmail, String phone, String firstname, String lastname);
     public boolean editEmail(final String loginEmail, final String newEmail);
     ResetPasswordStatus editPassword(String loginEmail, String password);

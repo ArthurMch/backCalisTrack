@@ -28,8 +28,22 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public void sendLostPasswordEmail(String email, String resetLink) {
-        String subject = "Réinitialisation de votre mot de passe";
-        String content = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe :\n" + resetLink;
+        String subject = "Réinitialisation de votre mot de passe - Calistrack";
+        String content = """
+            Bonjour,
+
+            Nous avons reçu une demande de réinitialisation de votre mot de passe pour votre compte Calistrack.
+
+            Si vous êtes à l'origine de cette demande, veuillez cliquer sur le lien ci-dessous pour définir un nouveau mot de passe :
+            
+            %s
+
+            Ce lien est valable pour une durée limitée. Si vous n’avez pas demandé de réinitialisation, vous pouvez ignorer cet e-mail. Votre mot de passe actuel restera inchangé.
+
+            Pour toute question ou assistance, n'hésitez pas à contacter notre support.
+
+            L'équipe Calistrack
+            """.formatted(resetLink);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -37,5 +51,6 @@ public class EmailServiceImpl implements EmailService {
         message.setText(content);
         mailSender.send(message);
     }
+
 
 }

@@ -183,6 +183,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     @Transactional
     public boolean editProfileInfo(final String loginEmail, final String phone, final String firstname, final String lastname) {
         final User user = getUser(loginEmail);
