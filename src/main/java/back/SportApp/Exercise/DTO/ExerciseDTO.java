@@ -17,6 +17,8 @@ public class ExerciseDTO {
         this.restTimeInMinutes = exercise.getRestTimeInMinutes();
     }
 
+    public ExerciseDTO() {}
+
     // Getters & Setters
     public Integer getId() {
         return id;

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -60,7 +62,8 @@ public class ExerciseController {
             if(doTrainingExist) {
                 Training newTraining = new Training();
                 newTraining.setTrainingUser(DevelopUtils.getUser(userService));
-                trainingService.create(newTraining);
+              //  trainingService.create(newTraining, new Set<Exercise>() {
+               // });
                 trainingExerciseService.addExerciseTraining(newTraining.getId(), exercise.getId());
             } else {
                 trainingExerciseService.addExerciseTraining(trainingId, exercise.getId());

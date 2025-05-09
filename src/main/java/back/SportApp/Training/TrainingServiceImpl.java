@@ -1,14 +1,18 @@
 package back.SportApp.Training;
 
+import back.SportApp.Exercise.DTO.ExerciseDTO;
 import back.SportApp.Exercise.Exercise;
 import back.SportApp.Exercise.ExerciseRepository;
+import back.SportApp.Training.DTO.TrainingDTO;
+import back.SportApp.TrainingExercise.TrainingExercise;
+import back.SportApp.TrainingExercise.TrainingExerciseRepository;
+import back.SportApp.User.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
@@ -17,24 +21,53 @@ public class TrainingServiceImpl implements TrainingService {
     private TrainingRepository trainingRepository;
     @Autowired
     private ExerciseRepository exerciseRepository;
+    @Autowired
+    private TrainingExerciseRepository trainingExerciseRepository;
+    @Autowired
+    private UserService userService;
+
+
     @Override
-    public Training create(Training training) {
-        return trainingRepository.save(training);
+    public void create(TrainingDTO trainingDTO, Set<ExerciseDTO> exercises) {
+        final Training training = toTrainingEntity(trainingDTO);
+        trainingRepository.save(training);
+        for (ExerciseDTO exercise : exercises) {
+            final TrainingExercise trainingExercise = new TrainingExercise(training, toExerciseEntity(exercise));
+            trainingExerciseRepository.save(trainingExercise);
+        }
+
     }
 
     @Override
-    public List<Training> findAll() {
-        return trainingRepository.findAll();
+    public List<TrainingDTO> findAll() {
+        final List<Training> trainings = trainingRepository.findAll();
+        final List<TrainingDTO> dtos = new ArrayList<>();
+        for (Training training : trainings) {
+            final TrainingDTO dto = toTrainingDTO(training);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Training findById(Integer id) {
+    public TrainingDTO findById(Integer id) {
         Optional<Training> training = trainingRepository.findById(id);
         if (training.isPresent()) {
-            return training.get();
+            return toTrainingDTO(training.get());
         }else{
             throw new RuntimeException("Wrong id" + id);
         }
+    }
+
+    @Override
+    public Set<TrainingDTO> findAllByUserId(Integer userId){
+        final Set<Training> trainings = trainingRepository.findByTrainingUserId(userId);
+        final Set<TrainingDTO> trainingDTOs = new HashSet<>();
+        for (Training training : trainings) {
+            final TrainingDTO dto = toTrainingDTO(training);
+            trainingDTOs.add(dto);
+        }
+        return trainingDTOs;
     }
 
     public Boolean existById(Integer id) {
@@ -57,7 +90,57 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        trainingRepository.deleteById(id);
+    @Transactional
+    public void deleteById(Integer trainingId) {
+        trainingExerciseRepository.deleteByTrainingId(trainingId);
+        trainingRepository.deleteById(trainingId);
     }
+
+    public Training toTrainingEntity(TrainingDTO dto) {
+        Training training = new Training();
+        training.setDate(dto.getDate());
+        training.setNumberOfExercise(dto.getNumberOfExercise());
+        training.setTotalMinutesOfRest(dto.getTotalMinutesOfRest());
+        training.setTotalMinutesOfTraining(dto.getTotalMinutesOfTraining());
+        training.setTrainingUser(userService.findById(dto.getTrainingUser()));
+        return training;
+    }
+
+    private Set<Exercise> toSetExerciseEntity(Set<ExerciseDTO> dtos) {
+        Set<Exercise> exercises = new HashSet<>();
+        for (ExerciseDTO dto : dtos) {
+            final Exercise exercise = toExerciseEntity(dto);
+            exercises.add(exercise);
+        }
+        return exercises;
+    }
+
+    private Exercise toExerciseEntity(ExerciseDTO dto) {
+        Exercise exercise = new Exercise();
+        exercise.setId(dto.getId());
+        exercise.setName(dto.getName());
+        exercise.setSet(dto.getSet());
+        exercise.setRep(dto.getRep());
+        exercise.setRestTimeInMinutes(dto.getRestTimeInMinutes());
+        return exercise;
+    }
+
+    private ExerciseDTO toExerciseDTO(Exercise exercise) {
+        ExerciseDTO dto = new ExerciseDTO();
+        dto.setId(exercise.getId());
+        dto.setName(exercise.getName());
+        dto.setSet(exercise.getSet());
+        dto.setRep(exercise.getRep());
+        dto.setRestTimeInMinutes(exercise.getRestTimeInMinutes());
+        return dto;
+    }
+
+    private TrainingDTO toTrainingDTO(Training training) {
+        final Set<TrainingExercise> relations = trainingExerciseRepository.findByTrainingId(training.getId());
+        final Set<ExerciseDTO> exerciseDTOs = relations.stream()
+                .map(rel -> toExerciseDTO(rel.getExercise())) // map à ton DTO
+                .collect(Collectors.toSet());
+        return new TrainingDTO(training, exerciseDTOs);
+    }
+
 }

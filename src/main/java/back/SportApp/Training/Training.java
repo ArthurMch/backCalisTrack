@@ -20,6 +20,9 @@ public class Training {
     @Column(name ="training_id")
     private Integer id;
 
+    @Column(name = "training_name")
+    private String name;
+
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name="training_date")
     private Date date;
@@ -87,5 +90,13 @@ public class Training {
 
     public void setTrainingUser(User trainingUser) {
         this.trainingUser = trainingUser;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

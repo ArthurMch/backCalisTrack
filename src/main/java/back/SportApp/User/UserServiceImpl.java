@@ -151,15 +151,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
     public User findById(Integer id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new RuntimeException("Account not found with id " + id);
-        }
+        return userRepository.findById(id)
+                .orElse(null); // ⚠️ ou .orElseThrow(() -> new RuntimeException(...));
     }
+
 
     @Override
     public User update(User user) {

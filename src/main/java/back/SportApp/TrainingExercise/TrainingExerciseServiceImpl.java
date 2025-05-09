@@ -45,7 +45,7 @@ public class TrainingExerciseServiceImpl implements TrainingExerciseService {
     }
 
     public Set<Exercise> getExerciseFromTraining(Integer trainingId) {
-        List<TrainingExercise> trainingExercises = trainingExerciseRepository.findByTrainingId(trainingId);
+        Set<TrainingExercise> trainingExercises = trainingExerciseRepository.findByTrainingId(trainingId);
         Set<Exercise> exercises = new HashSet<>();
         if(!trainingExercises.isEmpty()){
             for (TrainingExercise trainingExercise : trainingExercises) {
