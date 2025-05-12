@@ -1,4 +1,5 @@
 package back.SportApp.Auth;
+import back.SportApp.Auth.DTO.CalistrackController;
 import back.SportApp.Auth.DTO.UserDetailsDTO;
 import back.SportApp.Auth.DTO.request.*;
 import back.SportApp.Auth.DTO.response.IsValidLostPasswordResponse;
@@ -7,12 +8,14 @@ import back.SportApp.Auth.DTO.response.LostPasswordResponse;
 import back.SportApp.Auth.DTO.response.ResetPasswordResponse;
 import back.SportApp.Auth.Jwt.JwtUtil;
 import back.SportApp.Email.EmailService;
+import back.SportApp.User.DTO.SuccessResponse;
 import back.SportApp.User.Role;
 import back.SportApp.User.User;
 import back.SportApp.User.UserService;
 import back.SportApp.User.repository.UserRepository;
 import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +35,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController extends CalistrackController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -40,20 +43,18 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
     private final EmailService emailService;
-    private final UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder,
                           JwtUtil jwtUtil, AuthenticationManager authenticationManager,
-                          UserDetailsServiceImpl userDetailsService, EmailService emailService, UserService userService) {
+                          UserDetailsServiceImpl userDetailsService, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.emailService = emailService;
-        this.userService = userService;
     }
 
     @PostMapping("/register")
@@ -75,6 +76,17 @@ public class AuthController {
                 .body(userDetailsDTO);
     }
 
+    @PostMapping("/signout")
+    public ResponseEntity<SuccessResponse> signout(final HttpServletRequest request) {
+        logger.info("signout");
+        final SuccessResponse response = new SuccessResponse();
+        if (isLogged()) {
+            logger.info("Signout of user");
+            jwtUtil.revokeJwt(request);
+        }
+        response.setSuccess(true);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody final LoginRequest loginRequest) {
