@@ -44,6 +44,7 @@ public class TrainingController {
     public ResponseEntity<String> create(@RequestBody TrainingDTO trainingDTO) {
         try {
             trainingService.create(trainingDTO, trainingDTO.getExercises());
+
             return new ResponseEntity<>("Training created successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error("Erreur lors de la création de training", e);

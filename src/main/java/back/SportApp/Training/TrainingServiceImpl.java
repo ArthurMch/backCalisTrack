@@ -8,6 +8,8 @@ import back.SportApp.TrainingExercise.TrainingExercise;
 import back.SportApp.TrainingExercise.TrainingExerciseRepository;
 import back.SportApp.User.UserService;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ public class TrainingServiceImpl implements TrainingService {
     private TrainingExerciseRepository trainingExerciseRepository;
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
 
     @Override
@@ -98,6 +102,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     public Training toTrainingEntity(TrainingDTO dto) {
         Training training = new Training();
+        training.setName(dto.getName());
         training.setDate(dto.getDate());
         training.setNumberOfExercise(dto.getNumberOfExercise());
         training.setTotalMinutesOfRest(dto.getTotalMinutesOfRest());
