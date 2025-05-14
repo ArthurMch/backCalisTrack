@@ -12,7 +12,7 @@ public interface TrainingService {
     List<TrainingDTO> findAll();
     Set<TrainingDTO> findAllByUserId(Integer userId);
     TrainingDTO findById(Integer id);
-    Training update(Training training);
+    void update(TrainingDTO training);
     void deleteById(Integer id);
     Boolean existById(Integer id);
 }
