@@ -83,6 +83,7 @@ public class TrainingServiceImpl implements TrainingService {
         Optional<Training> existingTraining = trainingRepository.findById(training.getId());
         if (existingTraining.isPresent()) {
             Training updateTraining = existingTraining.get();
+            updateTraining.setName(training.getName());
             updateTraining.setDate(training.getDate());
             updateTraining.setTotalMinutesOfTraining(training.getTotalMinutesOfTraining());
             updateTraining.setTotalMinutesOfRest(training.getTotalMinutesOfRest());
