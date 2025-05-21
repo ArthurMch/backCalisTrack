@@ -5,6 +5,7 @@ import back.SportApp.Exercise.Exercise;
 import back.SportApp.Exercise.ExerciseController;
 import back.SportApp.Training.DTO.TrainingDTO;
 import back.SportApp.TrainingExercise.TrainingExerciseService;
+import back.SportApp.User.DTO.SuccessResponse;
 import back.SportApp.User.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,6 @@ public class TrainingController {
     public ResponseEntity<String> create(@RequestBody TrainingDTO trainingDTO) {
         try {
             trainingService.create(trainingDTO, trainingDTO.getExercises());
-
             return new ResponseEntity<>("Training created successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error("Erreur lors de la création de training", e);
@@ -96,14 +96,26 @@ public class TrainingController {
 
     }
 
-    @PutMapping("/")
-    public Training update(@RequestBody Training training) {
-        return trainingService.update(training);
+    @PutMapping("/{userId}")
+    public ResponseEntity<String> update(@PathVariable Integer userId, @RequestBody TrainingDTO training) {
+        try {
+            trainingService.update(training);
+            return ResponseEntity.ok("Training updated successfully");
+        }catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Training not updated");
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Integer id) {
-        trainingService.deleteById(id);
+    @DeleteMapping("/{trainingId}")
+    public ResponseEntity<String> delete(@PathVariable Integer trainingId) {
+        try {
+            trainingService.deleteById(trainingId);
+            return ResponseEntity.ok("Training deleted successfully");
+        } catch (RuntimeException e) {
+            logger.error("Erreur lors de la suppression de l'entrainement", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        }
+
     }
 
     }

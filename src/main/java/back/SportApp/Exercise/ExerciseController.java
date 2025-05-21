@@ -136,12 +136,12 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/{exerciseId}")
-    public ResponseEntity<String> deleteExercise(@PathVariable Integer exerciseId) {
+    public ResponseEntity<String> delete(@PathVariable Integer exerciseId) {
         try {
             exerciseService.deleteById(exerciseId);
             return ResponseEntity.ok("Exercise deleted successfully");
         } catch (RuntimeException e) {
-            logger.error("Erreur lors de la récupération de l'exercise", e);
+            logger.error("Erreur lors de la suppréssion de l'exercise", e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
         }
     }

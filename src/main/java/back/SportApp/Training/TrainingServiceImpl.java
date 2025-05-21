@@ -79,15 +79,16 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Training update(Training training) {
+    public void update(TrainingDTO training) {
         Optional<Training> existingTraining = trainingRepository.findById(training.getId());
         if (existingTraining.isPresent()) {
             Training updateTraining = existingTraining.get();
+            updateTraining.setName(training.getName());
             updateTraining.setDate(training.getDate());
             updateTraining.setTotalMinutesOfTraining(training.getTotalMinutesOfTraining());
             updateTraining.setTotalMinutesOfRest(training.getTotalMinutesOfRest());
             updateTraining.setNumberOfExercise(training.getNumberOfExercise());
-            return trainingRepository.save(updateTraining);
+            trainingRepository.save(updateTraining);
         } else {
             throw new RuntimeException("Wrong or inexistant ID" + training.getId());
         }
@@ -96,7 +97,8 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     @Transactional
     public void deleteById(Integer trainingId) {
-        trainingExerciseRepository.deleteByTrainingId(trainingId);
+        final Set<TrainingExercise> trainingExercises = trainingExerciseRepository.findByTrainingId(trainingId);
+        trainingExerciseRepository.deleteAll(trainingExercises);
         trainingRepository.deleteById(trainingId);
     }
 
