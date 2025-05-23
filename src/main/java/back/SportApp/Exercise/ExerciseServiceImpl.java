@@ -14,6 +14,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
+    private final ExerciseMapper exerciseMapper;
+
+    public ExerciseServiceImpl(ExerciseMapper exerciseMapper) {
+        this.exerciseMapper = exerciseMapper;
+    }
+
     @Override
     public Exercise create(Exercise exercise) {
         return exerciseRepository.save(exercise);
@@ -34,7 +40,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         final Set<Exercise> exercises = exerciseRepository.findAllByUserId(userId);
         final Set<ExerciseDTO> exerciseDTOs = new HashSet<>();
         for (Exercise exercise : exercises) {
-            final ExerciseDTO dto = toExerciseDTO(exercise);
+            final ExerciseDTO dto = exerciseMapper.toDTO(exercise);
             exerciseDTOs.add(dto);
         }
         return exerciseDTOs;
@@ -76,13 +82,4 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
-    private ExerciseDTO toExerciseDTO(Exercise exercise) {
-        ExerciseDTO dto = new ExerciseDTO();
-        dto.setId(exercise.getId());
-        dto.setName(exercise.getName());
-        dto.setSet(exercise.getSet());
-        dto.setRep(exercise.getRep());
-        dto.setRestTimeInMinutes(exercise.getRestTimeInMinutes());
-        return dto;
-    }
 }
