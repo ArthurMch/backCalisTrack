@@ -1,12 +1,12 @@
+# Étape 1 : builder l'app
+FROM gradle:8.2.1-jdk17 AS build
+COPY --chown=gradle:gradle . /home/gradle/project
+WORKDIR /home/gradle/project
+RUN gradle build --no-daemon
 
-# Utilise une image Java 17 légère
+# Étape 2 : image légère pour exécuter
 FROM eclipse-temurin:17-jdk-alpine
-
-# Dossier de travail dans le conteneur
 WORKDIR /app
+COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-Xmx256m", "-jar", "app.jar"]
 
-# Copie du .jar compilé dans le conteneur
-COPY build/libs/SportApp-0.0.1-SNAPSHOT.jar app.jar
-
-# Commande pour lancer ton app
-ENTRYPOINT ["java", "-Xmx256m", "-jar", "/app/app.jar"]
