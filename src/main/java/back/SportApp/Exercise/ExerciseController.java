@@ -110,6 +110,20 @@ public class ExerciseController {
         }
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Set<ExerciseDTO>> findByUserId(@PathVariable Integer id) {
+        try {
+            Set<ExerciseDTO> exercises = exerciseService.findAllByUserId(id);
+            if(exercises.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(exercises);
+        } catch (Exception e) {
+            logger.error("Erreur lors de la récupération des exercises", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Exercise> getById(@PathVariable Integer id) {

@@ -1,14 +1,24 @@
 package back.SportApp.Exercise;
+import back.SportApp.Exercise.DTO.ExerciseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
     @Autowired
     private ExerciseRepository exerciseRepository;
+
+    private final ExerciseMapper exerciseMapper;
+
+    public ExerciseServiceImpl(ExerciseMapper exerciseMapper) {
+        this.exerciseMapper = exerciseMapper;
+    }
 
     @Override
     public Exercise create(Exercise exercise) {
@@ -23,6 +33,17 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public List<Exercise> findAll() {
         return exerciseRepository.findAll();
+    }
+
+    @Override
+    public Set<ExerciseDTO> findAllByUserId(Integer userId) {
+        final Set<Exercise> exercises = exerciseRepository.findAllByUserId(userId);
+        final Set<ExerciseDTO> exerciseDTOs = new HashSet<>();
+        for (Exercise exercise : exercises) {
+            final ExerciseDTO dto = exerciseMapper.toDTO(exercise);
+            exerciseDTOs.add(dto);
+        }
+        return exerciseDTOs;
     }
 
     @Override
@@ -60,4 +81,5 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new RuntimeException("Wrong or inexistant ID" + id);
         }
     }
+
 }

@@ -2,6 +2,7 @@ package back.SportApp.Training;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
 import back.SportApp.Exercise.Exercise;
+import back.SportApp.Exercise.ExerciseMapper;
 import back.SportApp.Exercise.ExerciseRepository;
 import back.SportApp.Training.DTO.TrainingDTO;
 import back.SportApp.TrainingExercise.TrainingExercise;
@@ -28,8 +29,13 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private UserService userService;
 
+    private final ExerciseMapper exerciseMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
+    public TrainingServiceImpl(ExerciseMapper exerciseMapper) {
+        this.exerciseMapper = exerciseMapper;
+    }
 
     @Override
     public void create(TrainingDTO trainingDTO, Set<ExerciseDTO> exercises) {
@@ -132,20 +138,10 @@ public class TrainingServiceImpl implements TrainingService {
         return exercise;
     }
 
-    private ExerciseDTO toExerciseDTO(Exercise exercise) {
-        ExerciseDTO dto = new ExerciseDTO();
-        dto.setId(exercise.getId());
-        dto.setName(exercise.getName());
-        dto.setSet(exercise.getSet());
-        dto.setRep(exercise.getRep());
-        dto.setRestTimeInMinutes(exercise.getRestTimeInMinutes());
-        return dto;
-    }
-
     private TrainingDTO toTrainingDTO(Training training) {
         final Set<TrainingExercise> relations = trainingExerciseRepository.findByTrainingId(training.getId());
         final Set<ExerciseDTO> exerciseDTOs = relations.stream()
-                .map(rel -> toExerciseDTO(rel.getExercise())) // map à ton DTO
+                .map(rel -> exerciseMapper.toDTO(rel.getExercise())) // map à ton DTO
                 .collect(Collectors.toSet());
         return new TrainingDTO(training, exerciseDTOs);
     }
