@@ -64,7 +64,7 @@ class ExerciseControllerTest {
     @Test
     void testFindExerciseById() {
         when(exerciseService.findById(1)).thenReturn(exercise);
-        ResponseEntity<Exercise> response = exerciseController.findById(1);
+        ResponseEntity<Exercise> response = exerciseController.getById(1);
         assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getId());
@@ -81,7 +81,7 @@ class ExerciseControllerTest {
     @Test
     void testDeleteExercise() {
         doNothing().when(exerciseService).deleteById(1);
-        ResponseEntity<String> response = exerciseController.deleteExercise(1);
+        ResponseEntity<String> response = exerciseController.delete(1);
         assertEquals(200, response.getStatusCode().value());
         assertEquals("Exercise deleted successfully", response.getBody());
     }
