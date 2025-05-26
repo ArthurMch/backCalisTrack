@@ -85,18 +85,43 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void update(TrainingDTO training) {
-        Optional<Training> existingTraining = trainingRepository.findById(training.getId());
-        if (existingTraining.isPresent()) {
-            Training updateTraining = existingTraining.get();
-            updateTraining.setName(training.getName());
-            updateTraining.setDate(training.getDate());
-            updateTraining.setTotalMinutesOfTraining(training.getTotalMinutesOfTraining());
-            updateTraining.setTotalMinutesOfRest(training.getTotalMinutesOfRest());
-            updateTraining.setNumberOfExercise(training.getNumberOfExercise());
-            trainingRepository.save(updateTraining);
-        } else {
-            throw new RuntimeException("Wrong or inexistant ID" + training.getId());
+    @Transactional
+    public void update(TrainingDTO trainingDTO) {
+        Training existingTraining = trainingRepository.findById(trainingDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Training with ID " + trainingDTO.getId() + " not found"));
+
+        try {
+            // 1. Supprimer les anciennes relations
+            trainingExerciseRepository.deleteByIdTrainingId(trainingDTO.getId());
+
+            // 2. Ajouter les nouvelles relations
+            Set<ExerciseDTO> exercises = trainingDTO.getExercises();
+            if (exercises != null && !exercises.isEmpty()) {
+                for (ExerciseDTO exerciseDTO : exercises) {
+                    // Récupérer l'exercice complet
+                    Exercise exercise = exerciseRepository.findById(exerciseDTO.getId())
+                            .orElseThrow(() -> new RuntimeException("Exercise with ID " + exerciseDTO.getId() + " not found"));
+
+                    // Créer la nouvelle relation avec le constructeur
+                    TrainingExercise trainingExercise = new TrainingExercise(existingTraining, exercise);
+
+                    trainingExerciseRepository.save(trainingExercise);
+                }
+            }
+            // 3. Mettre à jour le training
+            existingTraining.setName(trainingDTO.getName());
+            existingTraining.setDate(trainingDTO.getDate());
+            existingTraining.setTotalMinutesOfTraining(trainingDTO.getTotalMinutesOfTraining());
+            existingTraining.setTotalMinutesOfRest(trainingDTO.getTotalMinutesOfRest());
+            existingTraining.setNumberOfExercise(exercises != null ? exercises.size() : 0);
+
+            trainingRepository.save(existingTraining);
+
+        } catch (RuntimeException e) {
+            // Re-lancer les RuntimeException (comme les not found)
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update training: " + e.getMessage());
         }
     }
 

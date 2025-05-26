@@ -1,5 +1,8 @@
 package back.SportApp.Exercise;
 import back.SportApp.Exercise.DTO.ExerciseDTO;
+import back.SportApp.Training.TrainingRepository;
+import back.SportApp.TrainingExercise.TrainingExercise;
+import back.SportApp.TrainingExercise.TrainingExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Autowired
     private ExerciseRepository exerciseRepository;
+    @Autowired
+    private TrainingExerciseRepository trainingExerciseRepository;
+    @Autowired
+    private TrainingRepository trainingRepository;
 
     private final ExerciseMapper exerciseMapper;
 
@@ -75,11 +82,16 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteById(Integer id) {
         final Exercise exercise = this.findById(id);
-        if(exercise != null) {
-            exerciseRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Wrong or inexistant ID" + id);
+        if(exercise == null) {
+            throw new RuntimeException("Exercise with ID " + id + " not found");
         }
+
+        List<TrainingExercise> associations = trainingExerciseRepository.findByExerciseId(id);
+        if(!associations.isEmpty()) {
+            throw new RuntimeException("Cannot delete exercise: it is used in " + associations.size() + " training(s). Please remove it from trainings first.");
+        }
+
+        exerciseRepository.deleteById(id);
     }
 
 }

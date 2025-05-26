@@ -1,5 +1,7 @@
 package back.SportApp.TrainingExercise;
 
+import back.SportApp.Exercise.Exercise;
+import back.SportApp.Training.Training;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +17,11 @@ public interface TrainingExerciseRepository extends JpaRepository<TrainingExerci
     Optional<TrainingExercise> findByExerciseNameAndExerciseId(String name, int id);
     Set<TrainingExercise> findByTrainingId(int id);
 
-    //void save(Integer trainingId, Integer exerciseId);
+    void deleteByIdTrainingId(Integer trainingId);
+    void deleteByIdExerciseId(Integer exerciseId);
+
+    void deleteByTraining(Training training);
+    void deleteByExercise(Exercise exercise);
 
     @Modifying
     @Query("DELETE FROM TrainingExercise te WHERE te.training.id = :trainingId")
