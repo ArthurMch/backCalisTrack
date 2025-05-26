@@ -155,9 +155,16 @@ public class ExerciseController {
             exerciseService.deleteById(exerciseId);
             return ResponseEntity.ok("Exercise deleted successfully");
         } catch (RuntimeException e) {
-            logger.error("Erreur lors de la suppréssion de l'exercise", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+            logger.error("Erreur lors de la suppression de l'exercice", e);
+
+            // Différencier les types d'erreurs
+            if (e.getMessage().contains("Cannot delete exercise: it is used")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            } else if (e.getMessage().contains("Wrong or inexistant ID")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur interne du serveur");
+            }
         }
     }
-
 }
