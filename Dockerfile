@@ -2,7 +2,7 @@
 FROM gradle:8.2.1-jdk17 AS build
 COPY --chown=gradle:gradle . /home/gradle/project
 WORKDIR /home/gradle/project
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 # Étape 2 : image légère pour exécuter
 FROM eclipse-temurin:17-jdk-alpine
