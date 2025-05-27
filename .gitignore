@@ -7,7 +7,6 @@ build/
 
 # Sensible config
 /src/main/resources/application-dev.properties
-.env
 
 
 ### STS ###
