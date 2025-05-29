@@ -1,7 +1,6 @@
 package back.SportApp.Exercise.DTO;
 
 import back.SportApp.Exercise.Exercise;
-import back.SportApp.User.User;
 
 public class ExerciseDTO {
     private Integer id;
@@ -9,7 +8,7 @@ public class ExerciseDTO {
     private Integer set;
     private Integer rep;
     private Integer restTimeInMinutes;
-    private Integer user;
+    private Integer userId;
 
     public ExerciseDTO(Exercise exercise) {
         this.id = exercise.getId();
@@ -17,7 +16,7 @@ public class ExerciseDTO {
         this.set = exercise.getSet();
         this.rep = exercise.getRep();
         this.restTimeInMinutes = exercise.getRestTimeInMinutes();
-        this.user = exercise.getUser().getId();
+        this.userId = exercise.getUser().getId();
     }
 
     public ExerciseDTO() {}
@@ -63,11 +62,11 @@ public class ExerciseDTO {
         this.restTimeInMinutes = restTimeInMinutes;
     }
 
-    public Integer getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(Integer user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

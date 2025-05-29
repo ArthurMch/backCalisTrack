@@ -28,7 +28,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise create(Exercise exercise) {
+    public Exercise create(ExerciseDTO exerciseDTO) {
+        final Exercise exercise = exerciseMapper.toEntity(exerciseDTO);
         return exerciseRepository.save(exercise);
     }
 

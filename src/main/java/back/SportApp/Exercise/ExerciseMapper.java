@@ -20,7 +20,7 @@ public class ExerciseMapper {
         dto.setSet(exercise.getSet());
         dto.setRep(exercise.getRep());
         dto.setRestTimeInMinutes(exercise.getRestTimeInMinutes());
-        dto.setUser(exercise.getUser().getId());
+        dto.setUserId(exercise.getUser().getId());
         return dto;
     }
 
@@ -31,7 +31,7 @@ public class ExerciseMapper {
         exercise.setSet(dto.getSet());
         exercise.setRep(dto.getRep());
         exercise.setRestTimeInMinutes(dto.getRestTimeInMinutes());
-        exercise.setUser(userService.findById(dto.getUser()));
+        exercise.setUser(userService.findById(dto.getUserId()));
         return exercise;
     }
 }

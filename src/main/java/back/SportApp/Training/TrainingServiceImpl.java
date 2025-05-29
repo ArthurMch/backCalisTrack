@@ -71,7 +71,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public Set<TrainingDTO> findAllByUserId(Integer userId){
-        final Set<Training> trainings = trainingRepository.findByTrainingUserId(userId);
+        final Set<Training> trainings = trainingRepository.findByUserId(userId);
         final Set<TrainingDTO> trainingDTOs = new HashSet<>();
         for (Training training : trainings) {
             final TrainingDTO dto = toTrainingDTO(training);
