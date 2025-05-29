@@ -4,9 +4,7 @@ import back.SportApp.Exercise.DTO.ExerciseDTO;
 import back.SportApp.Training.Training;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TrainingDTO {
     private Integer id;
@@ -27,7 +25,7 @@ public class TrainingDTO {
         this.numberOfExercise = exercises.size();
         this.totalMinutesOfRest = training.getTotalMinutesOfRest();
         this.totalMinutesOfTraining = training.getTotalMinutesOfTraining();
-        this.trainingUser = training.getTrainingUser().getId();
+        this.trainingUser = training.getUser().getId();
         this.exercises = exercises;
     }
 

@@ -40,7 +40,7 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @OneToMany(mappedBy = "trainingUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Training> trainings;
 
     @Enumerated(EnumType.STRING)

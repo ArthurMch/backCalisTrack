@@ -41,8 +41,8 @@ public class TrainingServiceImpl implements TrainingService {
     public void create(TrainingDTO trainingDTO, Set<ExerciseDTO> exercises) {
         final Training training = toTrainingEntity(trainingDTO);
         trainingRepository.save(training);
-        for (ExerciseDTO exercise : exercises) {
-            final TrainingExercise trainingExercise = new TrainingExercise(training, toExerciseEntity(exercise));
+        for (ExerciseDTO exerciseDto : exercises) {
+            final TrainingExercise trainingExercise = new TrainingExercise(training, exerciseMapper.toEntity(exerciseDto));
             trainingExerciseRepository.save(trainingExercise);
         }
 
@@ -140,28 +140,19 @@ public class TrainingServiceImpl implements TrainingService {
         training.setNumberOfExercise(dto.getNumberOfExercise());
         training.setTotalMinutesOfRest(dto.getTotalMinutesOfRest());
         training.setTotalMinutesOfTraining(dto.getTotalMinutesOfTraining());
-        training.setTrainingUser(userService.findById(dto.getTrainingUser()));
+        training.setUser(userService.findById(dto.getTrainingUser()));
         return training;
     }
 
     private Set<Exercise> toSetExerciseEntity(Set<ExerciseDTO> dtos) {
         Set<Exercise> exercises = new HashSet<>();
         for (ExerciseDTO dto : dtos) {
-            final Exercise exercise = toExerciseEntity(dto);
+            final Exercise exercise = exerciseMapper.toEntity(dto);
             exercises.add(exercise);
         }
         return exercises;
     }
 
-    private Exercise toExerciseEntity(ExerciseDTO dto) {
-        Exercise exercise = new Exercise();
-        exercise.setId(dto.getId());
-        exercise.setName(dto.getName());
-        exercise.setSet(dto.getSet());
-        exercise.setRep(dto.getRep());
-        exercise.setRestTimeInMinutes(dto.getRestTimeInMinutes());
-        return exercise;
-    }
 
     private TrainingDTO toTrainingDTO(Training training) {
         final Set<TrainingExercise> relations = trainingExerciseRepository.findByTrainingId(training.getId());
