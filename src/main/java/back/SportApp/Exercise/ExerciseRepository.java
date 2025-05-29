@@ -8,12 +8,8 @@ import java.util.Set;
 
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
-    @Query("""
-    SELECT e FROM Exercise e
-    JOIN TrainingExercise te ON te.exercise = e
-    JOIN Training t ON te.training = t
-    WHERE t.trainingUser.id = :userId
-    """)
+
+    @Query("SELECT e FROM Exercise e WHERE e.user.id = :userId")
     Set<Exercise> findAllByUserId(@Param("userId") Integer userId);
 
 }

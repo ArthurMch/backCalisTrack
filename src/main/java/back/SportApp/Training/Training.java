@@ -1,15 +1,11 @@
 package back.SportApp.Training;
 
 
-import back.SportApp.Exercise.Exercise;
 import back.SportApp.User.User;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "training")
@@ -38,7 +34,7 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
-    private User trainingUser;
+    private User user;
 
     public Training(){
     }
@@ -84,12 +80,12 @@ public class Training {
         this.totalMinutesOfTraining = totalMinutesOfTraining;
     }
 
-    public User getTrainingUser() {
-        return trainingUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setTrainingUser(User trainingUser) {
-        this.trainingUser = trainingUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {

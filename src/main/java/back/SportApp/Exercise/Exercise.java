@@ -1,6 +1,7 @@
 package back.SportApp.Exercise;
 
 import back.SportApp.Training.Training;
+import back.SportApp.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -27,6 +28,10 @@ public class Exercise {
 
     @Column(name = "exercise_rest_time_in_minutes")
     private Integer restTimeInMinutes;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
     public Exercise() {
     }
@@ -69,5 +74,13 @@ public class Exercise {
 
     public void setRestTimeInMinutes(Integer restTimeInMinutes) {
         this.restTimeInMinutes = restTimeInMinutes;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
