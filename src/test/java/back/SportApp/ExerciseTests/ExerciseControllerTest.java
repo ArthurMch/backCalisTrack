@@ -36,18 +36,22 @@ class ExerciseControllerTest {
     private ExerciseController exerciseController;
 
     private Exercise exercise;
+    private ExerciseDTO exerciseDTO;
+
+    private ExerciseMapper exerciseMapper;
 
     @BeforeEach
     void setUp() {
         exercise = new Exercise();
         exercise.setId(1);
         exercise.setName("Push-up");
+        exerciseDTO  = new ExerciseDTO(exercise);
     }
 
     @Test
     void testCreateExercise() {
-        when(exerciseService.create(any(Exercise.class))).thenReturn(exercise);
-        ResponseEntity<String> response = exerciseController.create(exercise);
+        when(exerciseService.create(any(ExerciseDTO.class))).thenReturn(exercise);
+        ResponseEntity<String> response = exerciseController.create(exerciseDTO);
         assertEquals(201, response.getStatusCode().value());
         assertEquals("Exercise created", response.getBody());
     }

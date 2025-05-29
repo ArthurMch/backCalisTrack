@@ -43,7 +43,7 @@ public class ExerciseController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> create(@RequestBody Exercise exercise) {
+    public ResponseEntity<String> create(@RequestBody ExerciseDTO exercise) {
         try {
             exerciseService.create(exercise);
             return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
@@ -54,7 +54,7 @@ public class ExerciseController {
     }
 
     @PostMapping("createAndAffiliateToTraining/{trainingId}")
-    public ResponseEntity<String> createAndAffiliateToTraining(@RequestBody Exercise exercise, @PathVariable Integer trainingId) {
+    public ResponseEntity<String> createAndAffiliateToTraining(@RequestBody ExerciseDTO exercise, @PathVariable Integer trainingId) {
         try {
             exerciseService.create(exercise);
             final Boolean doTrainingExist = trainingService.existById(trainingId);

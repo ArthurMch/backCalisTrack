@@ -33,7 +33,7 @@ public class Training {
     private Integer totalMinutesOfTraining;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="training_user_id", nullable = false)
     private User user;
 
     public Training(){

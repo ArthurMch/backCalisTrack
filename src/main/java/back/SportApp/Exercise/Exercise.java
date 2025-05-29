@@ -30,7 +30,7 @@ public class Exercise {
     private Integer restTimeInMinutes;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="exercise_user_id", nullable = false)
     private User user;
 
     public Exercise() {
