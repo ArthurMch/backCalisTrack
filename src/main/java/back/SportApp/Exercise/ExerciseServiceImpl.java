@@ -14,17 +14,18 @@ import java.util.Set;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
-    @Autowired
-    private ExerciseRepository exerciseRepository;
-    @Autowired
-    private TrainingExerciseRepository trainingExerciseRepository;
-    @Autowired
-    private TrainingRepository trainingRepository;
+
+    ExerciseRepository exerciseRepository;
+    TrainingExerciseRepository trainingExerciseRepository;
+    TrainingRepository trainingRepository;
 
     private final ExerciseMapper exerciseMapper;
 
-    public ExerciseServiceImpl(ExerciseMapper exerciseMapper) {
+    @Autowired
+    public ExerciseServiceImpl(ExerciseMapper exerciseMapper, TrainingExerciseRepository trainingExerciseRepository, TrainingRepository trainingRepository) {
         this.exerciseMapper = exerciseMapper;
+        this.trainingExerciseRepository = trainingExerciseRepository;
+        this.trainingRepository = trainingRepository;
     }
 
     @Override
