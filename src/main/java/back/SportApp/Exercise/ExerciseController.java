@@ -53,43 +53,6 @@ public class ExerciseController {
         }
     }
 
-    @PostMapping("createAndAffiliateToTraining/{trainingId}")
-    public ResponseEntity<String> createAndAffiliateToTraining(@RequestBody ExerciseDTO exercise, @PathVariable Integer trainingId) {
-        try {
-            exerciseService.create(exercise);
-            final Boolean doTrainingExist = trainingService.existById(trainingId);
-            if(doTrainingExist) {
-                Training newTraining = new Training();
-                newTraining.setUser(DevelopUtils.getUser(userService));
-              //  trainingService.create(newTraining, new Set<Exercise>() {
-               // });
-                trainingExerciseService.addExerciseTraining(newTraining.getId(), exercise.getId());
-            } else {
-                trainingExerciseService.addExerciseTraining(trainingId, exercise.getId());
-            }
-            return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("Erreur lors de la creation d'exercise", e);
-            return new ResponseEntity<>("Exercise not created", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("AffiliateToTraining/{exerciseId}/{trainingId}")
-    public ResponseEntity<String> affiliateToTraining(@PathVariable Integer exerciseId, @PathVariable Integer trainingId){
-        try{
-            final Boolean doTrainingExist = trainingService.existById(trainingId);
-            final Boolean doExerciseExist = exerciseService.existsById(exerciseId);
-            if(doTrainingExist && doExerciseExist) {
-                trainingExerciseService.addExerciseTraining(trainingId, exerciseId);
-                return ResponseEntity.ok("Exercise affiliated");
-            } else {
-                return new ResponseEntity<>("Exercise not affiliated", HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e){
-            return new ResponseEntity<>("Exercise not affiliated", HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @GetMapping("/")
     public ResponseEntity<List<ExerciseDTO>> findAll() {
         try {

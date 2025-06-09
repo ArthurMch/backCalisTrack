@@ -3,6 +3,7 @@ package back.SportApp.User;
 import back.SportApp.Training.Training;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
@@ -28,6 +29,7 @@ public class User {
     @Column(name = "user_lastname")
     private String lastname;
 
+    @NotNull
     @Column(name = "user_email", unique = true)
     private String email;
 
