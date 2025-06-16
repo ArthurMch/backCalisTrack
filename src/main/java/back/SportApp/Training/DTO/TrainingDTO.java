@@ -16,8 +16,6 @@ public class TrainingDTO {
     private Integer trainingUser;
     private Set<ExerciseDTO> exercises;
 
-
-    // Dois je passer un trainingExercise dans la signature ?
     public TrainingDTO(Training training, Set<ExerciseDTO> exercises) {
         this.id = training.getId();
         this.name = training.getName();

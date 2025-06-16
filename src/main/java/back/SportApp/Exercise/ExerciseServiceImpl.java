@@ -22,9 +22,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseMapper exerciseMapper;
 
     @Autowired
-    public ExerciseServiceImpl(ExerciseMapper exerciseMapper, TrainingExerciseRepository trainingExerciseRepository, TrainingRepository trainingRepository) {
+    public ExerciseServiceImpl(ExerciseMapper exerciseMapper, TrainingExerciseRepository trainingExerciseRepository, TrainingRepository trainingRepository, ExerciseRepository exerciseRepository) {
         this.exerciseMapper = exerciseMapper;
         this.trainingExerciseRepository = trainingExerciseRepository;
+        this.exerciseRepository = exerciseRepository;
         this.trainingRepository = trainingRepository;
     }
 

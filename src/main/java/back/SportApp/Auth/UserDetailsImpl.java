@@ -16,10 +16,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();  // Tu peux gérer les rôles ici si besoin
+        return Collections.emptyList();
     }
 
-    public Integer getId() {  // ou Integer, selon le type de votre ID
+    public Integer getId() {
         return user.getId();
     }
 
