@@ -26,4 +26,8 @@ public interface TrainingExerciseRepository extends JpaRepository<TrainingExerci
     @Modifying
     @Query("DELETE FROM TrainingExercise te WHERE te.training.id = :trainingId")
     void deleteByTrainingId(@Param("trainingId") Integer trainingId);
+
+    @Modifying
+    @Query("DELETE FROM TrainingExercise te WHERE te.training.id = :trainingId AND te.exercise.id = :exerciseId")
+    void deleteByTrainingIdAndExerciseId(@Param("trainingId") Integer trainingId, @Param("exerciseId") Integer exerciseId);
 }

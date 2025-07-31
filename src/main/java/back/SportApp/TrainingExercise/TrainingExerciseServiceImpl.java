@@ -9,6 +9,7 @@ import back.SportApp.User.repository.UserPasswordRepository;
 import back.SportApp.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -38,10 +39,12 @@ public class TrainingExerciseServiceImpl implements TrainingExerciseService {
         trainingExerciseRepository.save(trainingExercise);
     }
 
+    @Transactional
     public void deleteExerciseTraining(Integer trainingId, Integer exerciseId) {
-        Training training = trainingRepository.findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found"));
-        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(() -> new RuntimeException("Exercise not found"));
-        trainingRepository.delete(training);
+        trainingRepository.findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found"));
+        exerciseRepository.findById(exerciseId).orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+        trainingExerciseRepository.deleteByTrainingIdAndExerciseId(trainingId, exerciseId);
     }
 
     public Set<Exercise> getExerciseFromTraining(Integer trainingId) {
