@@ -1,7 +1,7 @@
 package back.SportApp;
 
-import back.SportApp.User.User;
-import back.SportApp.User.UserService;
+import back.SportApp.User.models.User;
+import back.SportApp.User.services.UserService;
 
 public class DevelopUtils {
 

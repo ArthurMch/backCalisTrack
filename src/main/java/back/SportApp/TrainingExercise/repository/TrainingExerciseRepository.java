@@ -1,7 +1,8 @@
-package back.SportApp.TrainingExercise;
+package back.SportApp.TrainingExercise.repository;
 
-import back.SportApp.Exercise.Exercise;
-import back.SportApp.Training.Training;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Training.models.Training;
+import back.SportApp.TrainingExercise.models.TrainingExercise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

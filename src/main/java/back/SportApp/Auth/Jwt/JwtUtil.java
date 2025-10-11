@@ -21,10 +21,6 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes());
-    }
-
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
@@ -34,15 +30,25 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+
+    public <T> T extractClaim(String token,
+                              Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -55,7 +61,8 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (MalformedJwtException e) {
-            throw new IllegalArgumentException("Invalid JWT token: " + token, e);
+            throw new IllegalArgumentException("Invalid JWT token: " + token,
+                    e);
         }
     }
 
@@ -64,14 +71,12 @@ public class JwtUtil {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
 
     public String parseJwt(final HttpServletRequest request) {
         final String headerAuth = request.getHeader("Authorization");
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer "
+        )) {
             return headerAuth.substring(7, headerAuth.length());
         }
 

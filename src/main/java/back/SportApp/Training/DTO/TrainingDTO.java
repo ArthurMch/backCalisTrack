@@ -1,7 +1,7 @@
 package back.SportApp.Training.DTO;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.Training;
+import back.SportApp.Training.models.Training;
 
 import java.util.Date;
 import java.util.Set;

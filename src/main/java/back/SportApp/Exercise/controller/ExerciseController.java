@@ -1,11 +1,12 @@
-package back.SportApp.Exercise;
+package back.SportApp.Exercise.controller;
 
-import back.SportApp.DevelopUtils;
+import back.SportApp.Auth.DTO.CalistrackController;
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.Training;
-import back.SportApp.Training.TrainingService;
-import back.SportApp.TrainingExercise.TrainingExerciseService;
-import back.SportApp.User.UserService;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.services.ExerciseService;
+import back.SportApp.Training.services.TrainingService;
+import back.SportApp.TrainingExercise.services.TrainingExerciseService;
+import back.SportApp.User.services.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 
 import java.util.Set;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/exercise")
-public class ExerciseController {
+public class ExerciseController extends CalistrackController {
 
     @Autowired
     private final ExerciseService exerciseService;
@@ -31,11 +33,17 @@ public class ExerciseController {
     @Autowired
     private final TrainingExerciseService trainingExerciseService;
 
+    @Autowired
     private final UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(ExerciseController.class);
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(ExerciseController.class);
 
 
-    public ExerciseController(ExerciseService exerciseService, TrainingExerciseService trainingExerciseService, TrainingService trainingService, UserService userService) {
+    public ExerciseController(ExerciseService exerciseService,
+                              TrainingExerciseService trainingExerciseService,
+                              TrainingService trainingService,
+                              UserService userService) {
         this.exerciseService = exerciseService;
         this.trainingExerciseService = trainingExerciseService;
         this.trainingService = trainingService;
@@ -49,7 +57,8 @@ public class ExerciseController {
             return new ResponseEntity<>("Exercise created", HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error("Erreur lors de la creation d'exercise", e);
-            return new ResponseEntity<>("Exercise not created", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Exercise not created",
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -76,7 +85,7 @@ public class ExerciseController {
     public ResponseEntity<Set<ExerciseDTO>> findByUserId(@PathVariable Integer id) {
         try {
             Set<ExerciseDTO> exercises = exerciseService.findAllByUserId(id);
-            if(exercises.isEmpty()) {
+            if (exercises.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(exercises);
@@ -86,12 +95,11 @@ public class ExerciseController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Exercise> getById(@PathVariable Integer id) {
         try {
             final Exercise exercise = exerciseService.findById(id);
-            if(exercise == null) {
+            if (exercise == null) {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(exercise);
@@ -107,7 +115,8 @@ public class ExerciseController {
             return ResponseEntity.ok("Exercise updated");
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exercise not updated");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exercise" +
+                    " not updated");
         }
     }
 

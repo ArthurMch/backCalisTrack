@@ -1,6 +1,6 @@
 package back.SportApp.Exercise.DTO;
 
-import back.SportApp.Exercise.Exercise;
+import back.SportApp.Exercise.models.Exercise;
 
 public class ExerciseDTO {
     private Integer id;

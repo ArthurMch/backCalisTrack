@@ -1,8 +1,8 @@
 package back.SportApp.Auth.DTO;
 
 import back.SportApp.Auth.UserDetailsImpl;
-import back.SportApp.User.User;
-import back.SportApp.User.UserService;
+import back.SportApp.User.models.User;
+import back.SportApp.User.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

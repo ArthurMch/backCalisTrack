@@ -1,7 +1,6 @@
-package back.SportApp.Training;
+package back.SportApp.Training.services;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Exercise.Exercise;
 import back.SportApp.Training.DTO.TrainingDTO;
 
 import java.util.List;

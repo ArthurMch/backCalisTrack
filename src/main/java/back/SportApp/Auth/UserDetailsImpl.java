@@ -1,6 +1,6 @@
 package back.SportApp.Auth;
 
-import back.SportApp.User.User;
+import back.SportApp.User.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

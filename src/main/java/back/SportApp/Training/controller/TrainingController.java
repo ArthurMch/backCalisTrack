@@ -1,12 +1,9 @@
-package back.SportApp.Training;
+package back.SportApp.Training.controller;
 
-import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Exercise.Exercise;
-import back.SportApp.Exercise.ExerciseController;
 import back.SportApp.Training.DTO.TrainingDTO;
-import back.SportApp.TrainingExercise.TrainingExerciseService;
-import back.SportApp.User.DTO.SuccessResponse;
-import back.SportApp.User.UserService;
+import back.SportApp.Training.services.TrainingService;
+import back.SportApp.TrainingExercise.services.TrainingExerciseService;
+import back.SportApp.User.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,26 +11,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/training")
 public class TrainingController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TrainingController.class);
     @Autowired
     private final TrainingService trainingService;
-
     @Autowired
     private final UserService userService;
-
     @Autowired
     private final TrainingExerciseService trainingExerciseService;
-
-    private static final Logger logger = LoggerFactory.getLogger(TrainingController.class);
 
     public TrainingController(TrainingService trainingService, TrainingExerciseService trainingExerciseService, UserService userService) {
         this.trainingService = trainingService;
@@ -61,10 +52,10 @@ public class TrainingController {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(training);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("Erreur lors de la récupération des entrainements");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
+        }
     }
 
     @GetMapping("/user/{id}")
@@ -75,7 +66,7 @@ public class TrainingController {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(trainings);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("Erreur lors de la récupération des entrainements");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -88,8 +79,8 @@ public class TrainingController {
             if (trainings.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-           return ResponseEntity.ok(trainings);
-        } catch (Exception e){
+            return ResponseEntity.ok(trainings);
+        } catch (Exception e) {
             logger.error("Erreur lors de la récupération des entrainements");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -101,7 +92,7 @@ public class TrainingController {
         try {
             trainingService.update(training);
             return ResponseEntity.ok("Training updated successfully");
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Training not updated");
         }
     }
@@ -118,7 +109,7 @@ public class TrainingController {
 
     }
 
-    }
+}
 
 
 

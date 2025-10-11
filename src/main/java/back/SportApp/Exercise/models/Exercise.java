@@ -1,12 +1,7 @@
-package back.SportApp.Exercise;
+package back.SportApp.Exercise.models;
 
-import back.SportApp.Training.Training;
-import back.SportApp.User.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import back.SportApp.User.models.User;
 import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "exercise")

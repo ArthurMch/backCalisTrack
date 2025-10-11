@@ -1,12 +1,14 @@
 package back.SportApp.ExerciseTests;
 
-import back.SportApp.Exercise.*;
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.Training;
-import back.SportApp.Training.TrainingService;
-import back.SportApp.TrainingExercise.TrainingExerciseService;
-import back.SportApp.User.User;
-import back.SportApp.User.UserService;
+import back.SportApp.Exercise.controller.ExerciseController;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.services.ExerciseService;
+import back.SportApp.Training.models.Training;
+import back.SportApp.Training.services.TrainingService;
+import back.SportApp.TrainingExercise.services.TrainingExerciseService;
+import back.SportApp.User.models.User;
+import back.SportApp.User.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

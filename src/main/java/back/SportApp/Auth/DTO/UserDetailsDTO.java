@@ -1,6 +1,6 @@
 package back.SportApp.Auth.DTO;
 
-import back.SportApp.User.Role;
+import back.SportApp.User.models.Role;
 
 public class UserDetailsDTO {
 

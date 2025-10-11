@@ -1,4 +1,4 @@
-package back.SportApp.User;
+package back.SportApp.User.controller;
 
 
 import back.SportApp.Auth.DTO.response.ResetPasswordResponse;
@@ -8,6 +8,8 @@ import back.SportApp.User.DTO.PasswordUpdateRequest;
 import back.SportApp.User.DTO.ProfileUpdateRequest;
 import back.SportApp.User.DTO.ProfileUpdateResponse;
 import back.SportApp.User.DTO.UserDTO;
+import back.SportApp.User.models.User;
+import back.SportApp.User.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
