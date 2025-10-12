@@ -50,13 +50,12 @@ public class TrainingExerciseServiceImpl implements TrainingExerciseService {
                 .collect(Collectors.toSet());
     }
 
-
     public void deleteExerciseTraining(Integer trainingId, Integer exerciseId) {
         Training training =
                 trainingRepository.findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found"));
         Exercise exercise =
                 exerciseRepository.findById(exerciseId).orElseThrow(() -> new RuntimeException("Exercise not found"));
-        
+
         trainingExerciseRepository.deleteByTraining(training);
     }
 
