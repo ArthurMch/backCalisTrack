@@ -1,7 +1,7 @@
-package back.SportApp.Exercise;
+package back.SportApp.Exercise.models;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.User.UserService;
+import back.SportApp.User.services.UserService;
 import org.springframework.stereotype.Component;
 
 @Component

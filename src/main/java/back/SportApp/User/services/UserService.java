@@ -1,7 +1,8 @@
-package back.SportApp.User;
+package back.SportApp.User.services;
 
 
 import back.SportApp.Auth.DTO.response.ResetPasswordStatus;
+import back.SportApp.User.models.User;
 
 import java.util.List;
 import java.util.Optional;

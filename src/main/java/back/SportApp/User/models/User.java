@@ -1,6 +1,6 @@
-package back.SportApp.User;
+package back.SportApp.User.models;
 
-import back.SportApp.Training.Training;
+import back.SportApp.Training.models.Training;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

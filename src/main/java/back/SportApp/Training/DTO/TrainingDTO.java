@@ -1,7 +1,7 @@
 package back.SportApp.Training.DTO;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.Training;
+import back.SportApp.Training.models.Training;
 
 import java.util.Date;
 import java.util.Set;
@@ -16,8 +16,6 @@ public class TrainingDTO {
     private Integer trainingUser;
     private Set<ExerciseDTO> exercises;
 
-
-    // Dois je passer un trainingExercise dans la signature ?
     public TrainingDTO(Training training, Set<ExerciseDTO> exercises) {
         this.id = training.getId();
         this.name = training.getName();

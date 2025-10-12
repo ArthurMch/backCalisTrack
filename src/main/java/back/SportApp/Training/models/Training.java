@@ -1,7 +1,7 @@
-package back.SportApp.Training;
+package back.SportApp.Training.models;
 
 
-import back.SportApp.User.User;
+import back.SportApp.User.models.User;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

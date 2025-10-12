@@ -1,5 +1,4 @@
 name: CI Pipeline
-
 on:
   push:
     branches: [ main, develop ]
@@ -9,14 +8,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:13
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: calistrackdb_test
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -45,7 +43,42 @@ jobs:
             sleep 2
           done
 
+      - name: Create test database
+        run: |
+          psql -h localhost -U postgres -c "CREATE DATABASE calistrackdb_test;"
+        env:
+          PGPASSWORD: postgres
+
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew test --info --stacktrace --no-daemon
         env:
           SPRING_PROFILES_ACTIVE: test
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          DB_URL: jdbc:postgresql://localhost:5432/calistrackdb_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

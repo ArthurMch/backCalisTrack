@@ -1,11 +1,14 @@
 package back.SportApp.ExerciseTests;
 
-import back.SportApp.Exercise.*;
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.TrainingExercise.TrainingExercise;
-import back.SportApp.TrainingExercise.TrainingExerciseRepository;
-import back.SportApp.Training.TrainingRepository;
-import back.SportApp.User.User;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.models.ExerciseMapper;
+import back.SportApp.Exercise.repository.ExerciseRepository;
+import back.SportApp.Exercise.services.ExerciseServiceImpl;
+import back.SportApp.TrainingExercise.models.TrainingExercise;
+import back.SportApp.TrainingExercise.repository.TrainingExerciseRepository;
+import back.SportApp.Training.repository.TrainingRepository;
+import back.SportApp.User.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +51,8 @@ class ExerciseServiceImplTest {
         exerciseService = new ExerciseServiceImpl(
                 exerciseMapper,
                 trainingExerciseRepository,
-                trainingRepository
+                trainingRepository,
+                exerciseRepository
         );
 
         // Injection du repository restant avec réflection
@@ -343,7 +347,8 @@ class ExerciseServiceImplTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             exerciseService.deleteById(1);
         });
-        assertEquals("Cannot delete exercise: it is used in 2 training(s). Please remove it from trainings first.", exception.getMessage());
+        assertEquals("Cannot delete exercise: it is used in 2 training(s). " +
+                "Please remove it from trainings first.", exception.getMessage());
         verify(exerciseRepository).findById(1);
         verify(trainingExerciseRepository).findByExerciseId(1);
         verify(exerciseRepository, never()).deleteById(any());

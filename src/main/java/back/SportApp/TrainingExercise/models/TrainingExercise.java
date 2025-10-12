@@ -1,8 +1,8 @@
-package back.SportApp.TrainingExercise;
+package back.SportApp.TrainingExercise.models;
 
 
-import back.SportApp.Exercise.Exercise;
-import back.SportApp.Training.Training;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Training.models.Training;
 import jakarta.persistence.*;
 
 @Entity

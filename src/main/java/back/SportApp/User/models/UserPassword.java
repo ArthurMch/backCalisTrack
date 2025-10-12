@@ -1,4 +1,4 @@
-package back.SportApp.User;
+package back.SportApp.User.models;
 
 import back.SportApp.Spring.model.CalistrackEntity;
 import back.SportApp.Spring.model.TrackingColumnListener;

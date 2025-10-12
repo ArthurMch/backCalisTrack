@@ -1,10 +1,10 @@
-package back.SportApp.Training;
+package back.SportApp.Training.repository;
 
+import back.SportApp.Training.models.Training;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
 import java.util.Set;
 
 public interface TrainingRepository extends JpaRepository<Training, Integer> {

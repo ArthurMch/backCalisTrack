@@ -1,13 +1,15 @@
-package back.SportApp.Training;
+package back.SportApp.Training.services;
 
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Exercise.Exercise;
-import back.SportApp.Exercise.ExerciseMapper;
-import back.SportApp.Exercise.ExerciseRepository;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.models.ExerciseMapper;
+import back.SportApp.Exercise.repository.ExerciseRepository;
 import back.SportApp.Training.DTO.TrainingDTO;
-import back.SportApp.TrainingExercise.TrainingExercise;
-import back.SportApp.TrainingExercise.TrainingExerciseRepository;
-import back.SportApp.User.UserService;
+import back.SportApp.Training.models.Training;
+import back.SportApp.Training.repository.TrainingRepository;
+import back.SportApp.TrainingExercise.models.TrainingExercise;
+import back.SportApp.TrainingExercise.repository.TrainingExerciseRepository;
+import back.SportApp.User.services.UserService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

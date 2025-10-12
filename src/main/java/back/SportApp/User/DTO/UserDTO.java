@@ -1,6 +1,6 @@
 package back.SportApp.User.DTO;
 
-import back.SportApp.User.User;
+import back.SportApp.User.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

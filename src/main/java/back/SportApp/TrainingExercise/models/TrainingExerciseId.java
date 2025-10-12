@@ -1,4 +1,4 @@
-package back.SportApp.TrainingExercise;
+package back.SportApp.TrainingExercise.models;
 
 import jakarta.persistence.Embeddable;
 

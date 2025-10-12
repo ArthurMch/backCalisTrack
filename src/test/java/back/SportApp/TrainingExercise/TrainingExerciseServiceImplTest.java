@@ -1,9 +1,11 @@
 package back.SportApp.TrainingExercise;
 
-import back.SportApp.Exercise.Exercise;
-import back.SportApp.Exercise.ExerciseRepository;
-import back.SportApp.Training.Training;
-import back.SportApp.Training.TrainingRepository;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.repository.ExerciseRepository;
+import back.SportApp.Training.models.Training;
+import back.SportApp.Training.repository.TrainingRepository;
+import back.SportApp.TrainingExercise.repository.TrainingExerciseRepository;
+import back.SportApp.TrainingExercise.services.TrainingExerciseServiceImpl;
 import back.SportApp.User.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -38,16 +41,20 @@ class TrainingExerciseServiceImplTest {
     void setUp() throws Exception {
         service = new TrainingExerciseServiceImpl();
         Field f;
-        f = TrainingExerciseServiceImpl.class.getDeclaredField("trainingExerciseRepository");
+        f = TrainingExerciseServiceImpl.class.getDeclaredField(
+                "trainingExerciseRepository");
         f.setAccessible(true);
         f.set(service, trainingExerciseRepository);
-        f = TrainingExerciseServiceImpl.class.getDeclaredField("trainingRepository");
+        f = TrainingExerciseServiceImpl.class.getDeclaredField(
+                "trainingRepository");
         f.setAccessible(true);
         f.set(service, trainingRepository);
-        f = TrainingExerciseServiceImpl.class.getDeclaredField("exerciseRepository");
+        f = TrainingExerciseServiceImpl.class.getDeclaredField(
+                "exerciseRepository");
         f.setAccessible(true);
         f.set(service, exerciseRepository);
-        f = TrainingExerciseServiceImpl.class.getDeclaredField("userRepository");
+        f = TrainingExerciseServiceImpl.class.getDeclaredField(
+                "userRepository");
         f.setAccessible(true);
         f.set(service, userRepository);
     }
@@ -66,7 +73,7 @@ class TrainingExerciseServiceImplTest {
 
         verify(trainingRepository).findById(1);
         verify(exerciseRepository).findById(2);
-        verify(trainingExerciseRepository).deleteByTrainingIdAndExerciseId(1, 2);
+        verify(trainingExerciseRepository).deleteByTraining(training);
         verify(trainingRepository, never()).delete(any());
     }
 
@@ -74,7 +81,8 @@ class TrainingExerciseServiceImplTest {
     void deleteExerciseTraining_trainingNotFound() {
         when(trainingRepository.findById(1)).thenReturn(Optional.empty());
 
-        RuntimeException e = assertThrows(RuntimeException.class, () -> service.deleteExerciseTraining(1, 2));
+        RuntimeException e = assertThrows(RuntimeException.class,
+                () -> service.deleteExerciseTraining(1, 2));
         assertEquals("Training not found", e.getMessage());
         verify(trainingExerciseRepository, never()).deleteByTrainingIdAndExerciseId(anyInt(), anyInt());
     }
@@ -86,7 +94,8 @@ class TrainingExerciseServiceImplTest {
         when(trainingRepository.findById(1)).thenReturn(Optional.of(training));
         when(exerciseRepository.findById(2)).thenReturn(Optional.empty());
 
-        RuntimeException e = assertThrows(RuntimeException.class, () -> service.deleteExerciseTraining(1, 2));
+        RuntimeException e = assertThrows(RuntimeException.class,
+                () -> service.deleteExerciseTraining(1, 2));
         assertEquals("Exercise not found", e.getMessage());
         verify(trainingExerciseRepository, never()).deleteByTrainingIdAndExerciseId(anyInt(), anyInt());
     }

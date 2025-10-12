@@ -1,8 +1,11 @@
-package back.SportApp.Exercise;
+package back.SportApp.Exercise.services;
 import back.SportApp.Exercise.DTO.ExerciseDTO;
-import back.SportApp.Training.TrainingRepository;
-import back.SportApp.TrainingExercise.TrainingExercise;
-import back.SportApp.TrainingExercise.TrainingExerciseRepository;
+import back.SportApp.Exercise.models.Exercise;
+import back.SportApp.Exercise.models.ExerciseMapper;
+import back.SportApp.Exercise.repository.ExerciseRepository;
+import back.SportApp.Training.repository.TrainingRepository;
+import back.SportApp.TrainingExercise.models.TrainingExercise;
+import back.SportApp.TrainingExercise.repository.TrainingExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +25,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseMapper exerciseMapper;
 
     @Autowired
-    public ExerciseServiceImpl(ExerciseMapper exerciseMapper, TrainingExerciseRepository trainingExerciseRepository, TrainingRepository trainingRepository) {
+    public ExerciseServiceImpl(ExerciseMapper exerciseMapper, TrainingExerciseRepository trainingExerciseRepository, TrainingRepository trainingRepository, ExerciseRepository exerciseRepository) {
         this.exerciseMapper = exerciseMapper;
         this.trainingExerciseRepository = trainingExerciseRepository;
+        this.exerciseRepository = exerciseRepository;
         this.trainingRepository = trainingRepository;
     }
 
