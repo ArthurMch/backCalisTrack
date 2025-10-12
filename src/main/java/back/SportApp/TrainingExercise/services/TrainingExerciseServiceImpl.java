@@ -56,7 +56,8 @@ public class TrainingExerciseServiceImpl implements TrainingExerciseService {
                 trainingRepository.findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found"));
         Exercise exercise =
                 exerciseRepository.findById(exerciseId).orElseThrow(() -> new RuntimeException("Exercise not found"));
-        trainingRepository.delete(training);
+        
+        trainingExerciseRepository.deleteByTraining(training);
     }
 
     public Set<Training> getTrainingsFromExercise(Integer exerciseId) {
