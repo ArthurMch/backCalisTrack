@@ -50,7 +50,7 @@ jobs:
           PGPASSWORD: postgres
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew test --info --stacktrace --no-daemon
         env:
           SPRING_PROFILES_ACTIVE: test
           JWT_KEY: ${{ secrets.JWT_KEY }}
