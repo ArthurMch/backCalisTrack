@@ -1,4 +1,5 @@
 package back.SportApp.Auth;
+
 import back.SportApp.Auth.DTO.CalistrackController;
 import back.SportApp.Auth.DTO.UserDetailsDTO;
 import back.SportApp.Auth.DTO.request.*;
@@ -42,12 +43,16 @@ public class AuthController extends CalistrackController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
     private final EmailService emailService;
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                          JwtUtil jwtUtil, AuthenticationManager authenticationManager,
-                          UserDetailsServiceImpl userDetailsService, EmailService emailService) {
+    public AuthController(UserRepository userRepository,
+                          PasswordEncoder passwordEncoder,
+                          JwtUtil jwtUtil,
+                          AuthenticationManager authenticationManager,
+                          UserDetailsServiceImpl userDetailsService,
+                          EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
@@ -64,12 +69,11 @@ public class AuthController extends CalistrackController {
                     .status(HttpStatus.CONFLICT)
                     .body("Un compte avec cet e-mail existe déjà.");
         }
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         User savedUser = userRepository.save(user);
-
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO(savedUser.getEmail(), savedUser.getRole());
+        UserDetailsDTO userDetailsDTO =
+                new UserDetailsDTO(savedUser.getEmail(), savedUser.getRole());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userDetailsDTO);
@@ -91,9 +95,11 @@ public class AuthController extends CalistrackController {
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody final LoginRequest loginRequest) {
         System.out.println("Attempt to log in");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        UserDetailsImpl userDetails =
+                (UserDetailsImpl) userDetailsService.loadUserByUsername(loginRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), loginRequest.getEmail()));
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(),
+                loginRequest.getEmail()));
     }
 
     @PostMapping("/validate-token")
@@ -112,19 +118,20 @@ public class AuthController extends CalistrackController {
     }
 
 
-
     @PostMapping("/lost-password")
     public ResponseEntity<LostPasswordResponse> lostPassword(
             @Valid @RequestBody final EmailLocaleCodeRequest lostPasswordRequest)
             throws MessagingException, IOException, InterruptedException {
-        final String token = userService.startLostPassword(lostPasswordRequest.getEmail());
+        final String token =
+                userService.startLostPassword(lostPasswordRequest.getEmail());
         if (StringUtils.isNotEmpty(token)) {
-            final String link = "http://localhost:8081" + "/reset-password?token=" + token;
+            final String link = "http://localhost:8081" + "/reset-password" +
+                    "?token=" + token;
             emailService.sendLostPasswordEmail(lostPasswordRequest.getEmail(),
                     link);
         } else {
-            // Feinter le délai de traitement trop rapide si une adresse mail qui n'existe
-            // pas
+            // Feinter le délai de traitement trop rapide si une adresse mail
+            // qui n'existe pas
             Thread.sleep(1000);
         }
         final LostPasswordResponse response = new LostPasswordResponse();
@@ -133,14 +140,27 @@ public class AuthController extends CalistrackController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResetPasswordResponse> resetLostPassword(
+            @Valid @RequestBody final ResetPasswordRequest resetPasswordRequest) {
+        final ResetPasswordResponse resetPasswordResponse =
+                new ResetPasswordResponse();
+        resetPasswordResponse.setStatus(
+                userService.resetPassword(resetPasswordRequest.getToken(),
+                        resetPasswordRequest.getPassword()));
+        return ResponseEntity.ok(resetPasswordResponse);
+    }
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/is-valid-lost-password")
     public ResponseEntity<IsValidLostPasswordResponse> isValidLostPassword(
             @Valid @RequestBody final IsValidTokenRequest isValidLostPasswordRequest) {
-        final IsValidLostPasswordResponse ret = new IsValidLostPasswordResponse();
+        final IsValidLostPasswordResponse ret =
+                new IsValidLostPasswordResponse();
         ret.setValid(userService.isValidLostPasswordToken(isValidLostPasswordRequest.getToken()));
-        final Optional<User> opt = userService.getUserByLostPasswordToken(isValidLostPasswordRequest.getToken());
+        final Optional<User> opt =
+                userService.getUserByLostPasswordToken(isValidLostPasswordRequest.getToken());
         if (opt.isPresent()) {
             ret.setEmail(opt.get().getEmail());
             ret.setUsername(opt.get().getFirstname() + " " + opt.get().getLastname());
@@ -148,15 +168,6 @@ public class AuthController extends CalistrackController {
         return ResponseEntity.ok(ret);
     }
 
-    @PreAuthorize("isAnonymous()")
-    @PostMapping("/reset-password")
-    public ResponseEntity<ResetPasswordResponse> resetLostPassword(
-            @Valid @RequestBody final ResetPasswordRequest resetPasswordRequest) {
-        final ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
-        resetPasswordResponse.setStatus(
-                userService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getPassword()));
-        return ResponseEntity.ok(resetPasswordResponse);
-    }
 
 }
 

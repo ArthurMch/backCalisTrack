@@ -71,6 +71,10 @@ public class JwtUtil {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
+    public void revokeJwt(final HttpServletRequest request) {
+        final String jwt = parseJwt(request);
+        RevokedJwtContainer.revokeToken(jwt);
+    }
 
     public String parseJwt(final HttpServletRequest request) {
         final String headerAuth = request.getHeader("Authorization");
@@ -81,11 +85,6 @@ public class JwtUtil {
         }
 
         return null;
-    }
-
-    public void revokeJwt(final HttpServletRequest request) {
-        final String jwt = parseJwt(request);
-        RevokedJwtContainer.revokeToken(jwt);
     }
 }
 
